@@ -2,10 +2,10 @@
 
 ## Team Members:
 
-* 
-* 
-* 
-* 
+* Anne Crum  
+* Marc Serebrisky
+* Shelby Whitaker
+* Daniel Yoo
 
 ## User stories
 

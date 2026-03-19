@@ -19,4 +19,12 @@ public class BankAccount {
     public double getBalance() {
         return this.balance;
     }
+    //task 8
+    public void collectFee(double feeAmount){
+        if(feeAmount > 0){
+            this.balance -= feeAmount;
+        } else{
+            throw new IllegalArgumentException();
+        }
+    }
 }

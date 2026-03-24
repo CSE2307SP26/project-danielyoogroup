@@ -20,7 +20,6 @@ public class BankAccount {
         return this.balance;
     }
 
-<<<<<<< HEAD
     public void closeAccount() {
     this.balance = 0;
 }
@@ -32,8 +31,7 @@ public class BankAccount {
             throw new IllegalArgumentException();
         }
     }
-}
-=======
+
 
     //A bank customer should be able to withdraw from their account
     public void withdraw(double amount) {
@@ -48,10 +46,18 @@ public class BankAccount {
     public double checkAccountBalance() {
         return this.balance;
     }
+
+    //task 9
+    public void addInterest(double interestAmount) {
+    if (interestAmount > 0) {
+        this.balance += interestAmount;
+    } else {
+        throw new IllegalArgumentException();
+    }
+}
        
     }
 
 
 
 
->>>>>>> withdraw-and-checkAccountBalance

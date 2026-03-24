@@ -27,7 +27,6 @@ public class BankAccountTest {
         }
     }
 
-<<<<<<< HEAD
 
     @Test
     public void testCloseEmptyAccount() {
@@ -45,6 +44,8 @@ public class BankAccountTest {
         testAccount.closeAccount();
 
         assertEquals(0, testAccount.getBalance(), 0.01);
+    }
+    
     @Test
     public void testCollectFee() {
         BankAccount testAccount = new BankAccount();
@@ -63,8 +64,7 @@ public class BankAccountTest {
             //do nothing, test passes
         }
     }
-}
-=======
+
     @Test
     public void testWithdraw() {
         BankAccount testAccount = new BankAccount();
@@ -104,7 +104,25 @@ public class BankAccountTest {
         testAccount.deposit(50);
         assertEquals(50, testAccount.checkAccountBalance(), 0.01);
     }
+
+    @Test
+    public void testAddInterest() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+        testAccount.addInterest(25);
+        assertEquals(125, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testInvalidInterest() {
+        BankAccount testAccount = new BankAccount();
+        try {
+            testAccount.addInterest(-10);
+            fail();
+        } catch (IllegalArgumentException e) {
+        // do nothing, test passes
+        }
+    }   
     
     }
 
->>>>>>> withdraw-and-checkAccountBalance

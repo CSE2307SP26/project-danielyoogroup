@@ -23,4 +23,12 @@ public class BankAccount {
     public void closeAccount() {
     this.balance = 0;
 }
+    //task 8
+    public void collectFee(double feeAmount){
+        if(feeAmount > 0){
+            this.balance -= feeAmount;
+        } else{
+            throw new IllegalArgumentException();
+        }
+    }
 }

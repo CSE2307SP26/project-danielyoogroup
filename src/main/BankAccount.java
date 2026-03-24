@@ -20,7 +20,30 @@ public class BankAccount {
         return this.balance;
     }
 
+<<<<<<< HEAD
     public void closeAccount() {
     this.balance = 0;
 }
 }
+=======
+
+    //A bank customer should be able to withdraw from their account
+    public void withdraw(double amount) {
+        if ((amount > 0) && (this.balance >= amount)) {
+            this.balance -= amount;
+        } else {
+            throw new IllegalArgumentException();
+            }
+        }
+
+    //A bank customer should be able to check their account balance
+    public double checkAccountBalance() {
+        return this.balance;
+    }
+       
+    }
+
+
+
+
+>>>>>>> withdraw-and-checkAccountBalance

@@ -26,4 +26,23 @@ public class BankAccountTest {
             //do nothing, test passes
         }
     }
+
+
+    @Test
+    public void testCloseEmptyAccount() {
+        BankAccount testAccount = new BankAccount();
+
+        testAccount.closeAccount();
+
+        assertEquals(0, testAccount.getBalance(), 0.01);
+    }
+    @Test
+    public void testCloseAccount() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+
+        testAccount.closeAccount();
+
+        assertEquals(0, testAccount.getBalance(), 0.01);
+    }
 }

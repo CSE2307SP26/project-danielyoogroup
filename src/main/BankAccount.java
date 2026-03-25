@@ -9,7 +9,6 @@ public class BankAccount {
     private List<String> transactionHistory;
     private List<BankAccount> otherAccounts;
 
-
     public BankAccount() {
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
@@ -73,37 +72,30 @@ public class BankAccount {
         this.withdraw(transferAmount);  //does the validation
         destinationAccount.deposit(transferAmount);
 
-    }
-
-    
-
-    }
-
-
-
-
-    //A bank customer should be able to view their transaction history for an account
-    public void viewTransactionHistory() {
-        if (transactionHistory.isEmpty()){
-            System.out.println("No transactions");
         }
-        else{
-            for(String transaction : transactionHistory){
-                System.out.println(transaction);
+    
+        //A bank customer should be able to view their transaction history for an account
+        public void viewTransactionHistory() {
+            if (transactionHistory.isEmpty()){
+                System.out.println("No transactions");
+            }
+            else{
+                for(String transaction : transactionHistory){
+                    System.out.println(transaction);
+                }
             }
         }
+        
+         //A bank customer should be able to create an additional account with the bank.
+         public void createAdditionalAccount(){
+            BankAccount newAccount = new BankAccount();
+            otherAccounts.add(newAccount);
+            System.out.println("New account with balance: $" + newAccount.getBalance() + " created.");
+         }
+    
+         //check extra accounts 
+         public List<BankAccount> getOtherAccounts() {
+            return otherAccounts;
+         }  
     }
     
-     //A bank customer should be able to create an additional account with the bank.
-     public void createAdditionalAccount(){
-        BankAccount newAccount = new BankAccount();
-        otherAccounts.add(newAccount);
-        System.out.println("New account with balance: $" + newAccount.getBalance() + " created.");
-     }
-
-     //check extra accounts 
-     public List<BankAccount> getOtherAccounts() {
-        return otherAccounts;
-     }  
-
-    }

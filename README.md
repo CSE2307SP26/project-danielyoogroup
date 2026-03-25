@@ -23,6 +23,7 @@
 We roughly completed every user story, but we are planning on cleaning the code for the next iteration. 
 
 ## Is there anything that you implemented but doesn't currently work?
+Everything works, but may not be most optimal. 
 
 ## What commands are needed to compile and run your code from the command line?
 

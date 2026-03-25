@@ -12,7 +12,7 @@ public class BankAccountTest {
     @Test
     public void testDeposit() {
         BankAccount testAccount = new BankAccount();
-        testAccount.deposit(50);
+        testAccount.deposit(50);x
         assertEquals(50, testAccount.getBalance(), 0.01);
     }
 

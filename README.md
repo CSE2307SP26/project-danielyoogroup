@@ -24,3 +24,12 @@
 ## Is there anything that you implemented but doesn't currently work?
 
 ## What commands are needed to compile and run your code from the command line?
+
+1. Clone repo:
+   git clone https://github.com/CSE2307SP26/project-danielyoogroup.git
+
+2. cd into project folder
+   cd project-danielyoogroup
+
+3. run it
+   ./runApp.sh

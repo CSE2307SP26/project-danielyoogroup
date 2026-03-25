@@ -158,3 +158,17 @@ public class BankAccountTest {
 
     }
 
+    @Test
+    public void testTransactionHistory() {
+    BankAccount account = new BankAccount();
+    account.deposit(100);
+    account.viewTransactionHistory();
+}
+
+    @Test
+    public void testCreateAdditionalAccount() {
+        BankAccount account = new BankAccount();
+        account.createAdditionalAccount();
+        assertEquals(1, account.getOtherAccounts().size());
+    }
+}

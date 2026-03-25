@@ -54,8 +54,19 @@ public class BankAccount {
     } else {
         throw new IllegalArgumentException();
     }
-}
-       
+    }
+
+    public void transferMoney (BankAccount destinationAccount, double transferAmount) {
+        if (destinationAccount == null){
+            throw new IllegalArgumentException(); //the destination account not valid
+        }
+        this.withdraw(transferAmount);  //does the validation
+        destinationAccount.deposit(transferAmount);
+
+    }
+
+    
+
     }
 
 

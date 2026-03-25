@@ -124,5 +124,37 @@ public class BankAccountTest {
         }
     }   
     
+   @Test
+    public void testTransferMoney() {
+        BankAccount startAccount = new BankAccount();
+        BankAccount destinationAccount = new BankAccount();
+
+        startAccount.deposit(100);
+        destinationAccount.deposit(25);
+
+        startAccount.transferMoney(destinationAccount, 40);
+
+        assertEquals(60, startAccount.getBalance(), 0.01);
+        assertEquals(65, destinationAccount.getBalance(), 0.01);
+    }
+
+
+    @Test
+    public void testInvalidOverTransfer() {    
+    BankAccount startAccount = new BankAccount();
+    BankAccount destinationAccount = new BankAccount();
+
+    startAccount.deposit(50);
+
+    try {
+        startAccount.transferMoney(destinationAccount, 100);
+        fail();
+    } catch (IllegalArgumentException e) {
+        //do nothing, test passes
+    }
+    }
+
+
+
     }
 

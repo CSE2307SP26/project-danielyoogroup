@@ -4,13 +4,15 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int EXIT_SELECTION = 3;
-	private static final int MAX_SELECTION = 3;
+    private static final int EXIT_SELECTION = 10;
+	private static final int MAX_SELECTION = 10;
 
+    private Bank bank;
 	private BankAccount userAccount;
     private Scanner keyboardInput;
 
     public MainMenu() {
+        this.bank = new Bank();
         this.userAccount = new BankAccount();
         this.keyboardInput = new Scanner(System.in);
     }
@@ -18,7 +20,7 @@ public class MainMenu {
     public void displayOptions() {
         System.out.println("Welcome to the 237 Bank App!");
         System.out.println("1. Make a deposit");
-        System.out.println("2. Exit the app");
+        System.out.println("2. Make a withdrawal");
         System.out.println("3. Check account balance");
         System.out.println("4. View transaction history");
         System.out.println("5. Create additional account");
@@ -54,7 +56,7 @@ public class MainMenu {
                 userAccount.viewTransactionHistory();
                 break;
             case 5:
-                userAccount.createAdditionalAccount();
+                performCreateAdditionalAccount();
                 break;
             case 6:
                 performCloseAccount();
@@ -102,21 +104,32 @@ public class MainMenu {
     }
 
     public void performCloseAccount() {
-        userAccount.closeAccount();
-        System.out.println("Account closed.");
+        System.out.print("Enter account index to close: ");
+        int accountIndex = keyboardInput.nextInt();
+
+        try {
+            bank.closeAccount(accountIndex);
+            System.out.println("Account closed.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid account.");
+        }
     }
 
     public void performTransfer() {
+        System.out.print("Enter source account index: ");
+        int sourceIndex = keyboardInput.nextInt();
+
+        System.out.print("Enter destination account index: ");
+        int destinationIndex = keyboardInput.nextInt();
+
         System.out.print("How much would you like to transfer: ");
         double transferAmount = keyboardInput.nextDouble();
 
-        BankAccount destinationAccount = new BankAccount();
-
         try {
-            userAccount.transferMoney(destinationAccount, transferAmount);
+            bank.transfer(sourceIndex, destinationIndex, transferAmount);
             System.out.println("Transfer successful.");
-            System.out.println("Your new balance: $" + userAccount.getBalance());
-            System.out.println("Destination account balance: $" + destinationAccount.getBalance());
+            System.out.println("Source account new balance: $" + bank.getAccount(sourceIndex).getBalance());
+            System.out.println("Destination account new balance: $" + bank.getAccount(destinationIndex).getBalance());
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid transfer.");
         }
@@ -144,6 +157,11 @@ public class MainMenu {
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid interest amount.");
         }
+    }
+
+    public void performCreateAdditionalAccount() {
+        bank.createAccount();
+        System.out.println("Additional account created.");
     }
 
 

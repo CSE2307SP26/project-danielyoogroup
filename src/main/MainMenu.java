@@ -126,7 +126,7 @@ public class MainMenu {
         double transferAmount = keyboardInput.nextDouble();
 
         try {
-            bank.transfer(sourceIndex, destinationIndex, transferAmount);
+            bank.transferMoney(sourceIndex, destinationIndex, transferAmount);
             System.out.println("Transfer successful.");
             System.out.println("Source account new balance: $" + bank.getAccount(sourceIndex).getBalance());
             System.out.println("Destination account new balance: $" + bank.getAccount(destinationIndex).getBalance());

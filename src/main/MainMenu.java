@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int EXIT_SELECTION = 10;
-	private static final int MAX_SELECTION = 10;
+    private static final int EXIT_SELECTION = 11;
+    private static final int MAX_SELECTION = 11;
 
     private Bank bank;
-	private BankAccount userAccount;
+    private BankAccount userAccount;
     private Scanner keyboardInput;
 
     public MainMenu() {
@@ -28,13 +28,14 @@ public class MainMenu {
         System.out.println("7. Transfer money");
         System.out.println("8. Collect fee");
         System.out.println("9. Add interest");
-        System.out.println("10. Exit the app");
+        System.out.println("10. See existing accounts");
+        System.out.println("11. Exit the app");
 
     }
 
     public int getUserSelection(int max) {
         int selection = -1;
-        while(selection < 1 || selection > max) {
+        while (selection < 1 || selection > max) {
             System.out.print("Please make a selection: ");
             selection = keyboardInput.nextInt();
         }
@@ -71,6 +72,9 @@ public class MainMenu {
                 performAddInterest();
                 break;
             case 10:
+                performListAccounts();
+                break;
+            case 11:
                 System.out.println("Goodbye!");
                 break;
             default:
@@ -81,12 +85,13 @@ public class MainMenu {
 
     public void performDeposit() {
         double depositAmount = -1;
-        while(depositAmount < 0) {
+        while (depositAmount < 0) {
             System.out.print("How much would you like to deposit: ");
             depositAmount = keyboardInput.nextInt();
         }
         userAccount.deposit(depositAmount);
     }
+
     public void performWithdrawal() {
         System.out.print("How much would you like to withdraw: ");
         double withdrawAmount = keyboardInput.nextDouble();
@@ -164,10 +169,15 @@ public class MainMenu {
         System.out.println("Additional account created.");
     }
 
+    public void performListAccounts() {
+        System.out.println("\nDisplaying all accounts:");
+        bank.listAccounts();
+        System.out.println();
+    }
 
     public void run() {
         int selection = -1;
-        while(selection != EXIT_SELECTION) {
+        while (selection != EXIT_SELECTION) {
             displayOptions();
             selection = getUserSelection(MAX_SELECTION);
             processInput(selection);

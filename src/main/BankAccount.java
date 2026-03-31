@@ -7,12 +7,10 @@ public class BankAccount {
 
     private double balance;
     private List<String> transactionHistory;
-    private List<BankAccount> otherAccounts;
 
     public BankAccount() {
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
-        this.otherAccounts = new ArrayList<>();
         transactionHistory.add("Account created with balance: " + this.balance);
     }
 
@@ -29,13 +27,11 @@ public class BankAccount {
         return this.balance;
     }
 
-    public void closeAccount() {
-    this.balance = 0;
-}
     //task 8
     public void collectFee(double feeAmount){
         if(feeAmount > 0){
             this.balance -= feeAmount;
+            transactionHistory.add("Fee collected: $" + feeAmount + ", New Balance: $" + this.balance);
         } else{
             throw new IllegalArgumentException();
         }
@@ -46,10 +42,11 @@ public class BankAccount {
     public void withdraw(double amount) {
         if ((amount > 0) && (this.balance >= amount)) {
             this.balance -= amount;
+            transactionHistory.add("Withdrew: $" + amount + ", New Balance: $" + this.balance);
         } else {
             throw new IllegalArgumentException();
-            }
         }
+    }
 
     //A bank customer should be able to check their account balance
     public double checkAccountBalance() {
@@ -58,44 +55,25 @@ public class BankAccount {
 
     //task 9
     public void addInterest(double interestAmount) {
-    if (interestAmount > 0) {
-        this.balance += interestAmount;
-    } else {
-        throw new IllegalArgumentException();
-    }
+        if (interestAmount > 0) {
+            this.balance += interestAmount;
+            transactionHistory.add("Interest added: $" + interestAmount + ", New Balance: $" + this.balance);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
-    public void transferMoney (BankAccount destinationAccount, double transferAmount) {
-        if (destinationAccount == null){
-            throw new IllegalArgumentException(); //the destination account not valid
-        }
-        this.withdraw(transferAmount);  //does the validation
-        destinationAccount.deposit(transferAmount);
-
-        }
     
         //A bank customer should be able to view their transaction history for an account
-        public void viewTransactionHistory() {
-            if (transactionHistory.isEmpty()){
-                System.out.println("No transactions");
-            }
-            else{
-                for(String transaction : transactionHistory){
-                    System.out.println(transaction);
-                }
+    public void viewTransactionHistory() {
+        if (transactionHistory.isEmpty()){
+            System.out.println("No transactions");
+        }else{
+            for(String transaction : transactionHistory){
+                System.out.println(transaction);
             }
         }
-        
-         //A bank customer should be able to create an additional account with the bank.
-         public void createAdditionalAccount(){
-            BankAccount newAccount = new BankAccount();
-            otherAccounts.add(newAccount);
-            System.out.println("New account with balance: $" + newAccount.getBalance() + " created.");
-         }
-    
-         //check extra accounts 
-         public List<BankAccount> getOtherAccounts() {
-            return otherAccounts;
-         }  
     }
+    
+}
     

@@ -33,28 +33,26 @@ public class Bank {
     }
     return accounts.get(index);
     }
-    //I think this should just be remove the account from the list not make the balance zero** "accounts.remove(index);" also real world the account has to have 0 balance before you close so maybe we could add that....
     
+    //I think this should just be remove the account from the list not make the balance zero** "accounts.remove(index);" also real world the account has to have 0 balance before you close so maybe we could add that....
     public void closeAccount(int index) {
         accounts.remove(index);
     }
 
-    public void transfer(int fromIndex, int toIndex, double amount) {
-        if (fromIndex < 0 || fromIndex >= accounts.size()) {
-            throw new IllegalArgumentException();
-        }
-        if (toIndex < 0 || toIndex >= accounts.size()) {
-            throw new IllegalArgumentException();
-        }
-        if (fromIndex == toIndex) {
-            throw new IllegalArgumentException();
-        }
+    public void transferMoney(int fromIndex, int toIndex, double amount) {
+        if (fromIndex >= 0 && fromIndex < accounts.size()
+                && toIndex >= 0 && toIndex < accounts.size()
+                && fromIndex != toIndex) {
 
-        BankAccount sourceAccount = accounts.get(fromIndex);
-        BankAccount destinationAccount = accounts.get(toIndex);
-        sourceAccount.transferMoney(destinationAccount, amount);
-        }
+            BankAccount sourceAccount = accounts.get(fromIndex);
+            BankAccount destinationAccount = accounts.get(toIndex);
 
+            sourceAccount.withdraw(amount);
+            destinationAccount.deposit(amount);
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
 
 
 

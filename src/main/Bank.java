@@ -21,8 +21,8 @@ public class Bank {
     // create account and store it in the bank
     // //A bank customer should be able to create an additional account with the
     // bank.
-    public BankAccount createAccount() {
-        BankAccount newAccount = new BankAccount();
+    public BankAccount createAccount(String name) {
+        BankAccount newAccount = new BankAccount(name);
         accounts.add(newAccount);
         return newAccount;
     }

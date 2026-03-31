@@ -7,8 +7,13 @@ public class BankAccount {
 
     private double balance;
     private List<String> transactionHistory;
+    private String name;
 
     public BankAccount() {
+    this("Unnamed");
+}
+    public BankAccount(String name) {
+        this.name = name;
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
         transactionHistory.add("Account created with balance: " + this.balance);

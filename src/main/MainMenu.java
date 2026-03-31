@@ -8,12 +8,14 @@ public class MainMenu {
     private static final int MAX_SELECTION = 11;
 
     private Bank bank;
-    private BankAccount userAccount;
+    //private BankAccount userAccount;
     private Scanner keyboardInput;
+    private int currentAccountIndex = 0;
+    
 
     public MainMenu() {
         this.bank = new Bank();
-        this.userAccount = new BankAccount();
+        //this.userAccount = new BankAccount("Default");
         this.keyboardInput = new Scanner(System.in);
     }
 
@@ -38,6 +40,7 @@ public class MainMenu {
         while (selection < 1 || selection > max) {
             System.out.print("Please make a selection: ");
             selection = keyboardInput.nextInt();
+            keyboardInput.nextLine();
         }
         return selection;
     }
@@ -54,7 +57,7 @@ public class MainMenu {
                 performCheckBalance();
                 break;
             case 4:
-                userAccount.viewTransactionHistory();
+                bank.getAccount(currentAccountIndex).viewTransactionHistory();
                 break;
             case 5:
                 performCreateAdditionalAccount();
@@ -83,13 +86,22 @@ public class MainMenu {
         }
     }
 
+    
+
+
     public void performDeposit() {
+        BankAccount acc = bank.getAccount(currentAccountIndex);
+
+        if (acc == null) {
+            System.out.println("No account selected!");
+            return; }
         double depositAmount = -1;
         while (depositAmount < 0) {
             System.out.print("How much would you like to deposit: ");
             depositAmount = keyboardInput.nextInt();
+            keyboardInput.nextLine();
         }
-        userAccount.deposit(depositAmount);
+        acc.deposit(depositAmount);
     }
 
     public void performWithdrawal() {
@@ -97,7 +109,7 @@ public class MainMenu {
         double withdrawAmount = keyboardInput.nextDouble();
 
         try {
-            userAccount.withdraw(withdrawAmount);
+            bank.getAccount(currentAccountIndex).withdraw(withdrawAmount);
             System.out.println("Withdrawal successful.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid withdrawal amount.");
@@ -105,12 +117,13 @@ public class MainMenu {
     }
 
     public void performCheckBalance() {
-        System.out.println("Current balance: $" + userAccount.checkAccountBalance());
+        System.out.println("Current balance: $" + bank.getAccount(currentAccountIndex).checkAccountBalance());
     }
 
     public void performCloseAccount() {
         System.out.print("Enter account index to close: ");
         int accountIndex = keyboardInput.nextInt();
+        keyboardInput.nextLine();
 
         try {
             bank.closeAccount(accountIndex);
@@ -123,9 +136,11 @@ public class MainMenu {
     public void performTransfer() {
         System.out.print("Enter source account index: ");
         int sourceIndex = keyboardInput.nextInt();
+        keyboardInput.nextLine();
 
         System.out.print("Enter destination account index: ");
         int destinationIndex = keyboardInput.nextInt();
+        keyboardInput.nextLine();
 
         System.out.print("How much would you like to transfer: ");
         double transferAmount = keyboardInput.nextDouble();
@@ -145,7 +160,7 @@ public class MainMenu {
         double feeAmount = keyboardInput.nextDouble();
 
         try {
-            userAccount.collectFee(feeAmount);
+            bank.getAccount(currentAccountIndex).collectFee(feeAmount);
             System.out.println("Fee collected.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid fee amount.");
@@ -157,7 +172,7 @@ public class MainMenu {
         double interestAmount = keyboardInput.nextDouble();
 
         try {
-            userAccount.addInterest(interestAmount);
+            bank.getAccount(currentAccountIndex).addInterest(interestAmount);
             System.out.println("Interest added.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid interest amount.");
@@ -165,7 +180,10 @@ public class MainMenu {
     }
 
     public void performCreateAdditionalAccount() {
-        bank.createAccount();
+        keyboardInput.nextLine();
+        System.out.println("What is the name of the account you would like to create?");
+        String name = keyboardInput.nextLine();
+        bank.createAccount(name);
         System.out.println("Additional account created.");
     }
 
@@ -187,6 +205,7 @@ public class MainMenu {
     public static void main(String[] args) {
         MainMenu bankApp = new MainMenu();
         bankApp.run();
-    }
+        //bankApp.keyboardInput.close();
+    }}
 
-}
+

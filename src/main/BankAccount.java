@@ -19,6 +19,7 @@ public class BankAccount {
         transactionHistory.add("Account created with balance: " + this.balance);
     }
 
+
     public void deposit(double amount) {
         if(amount > 0) {
             this.balance += amount;
@@ -30,6 +31,10 @@ public class BankAccount {
 
     public double getBalance() {
         return this.balance;
+    }
+
+     public String getName() {
+        return this.name;
     }
 
     //task 8

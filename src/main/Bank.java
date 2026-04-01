@@ -18,6 +18,7 @@ public class Bank {
         return accounts.size();
     }
 
+
     // create account and store it in the bank
     // //A bank customer should be able to create an additional account with the
     // bank.
@@ -68,7 +69,7 @@ public class Bank {
 
         for (int i = 0; i < accounts.size(); i++) {
             BankAccount acc = accounts.get(i);
-            System.out.println("Account " + i + " | Balance: $" + acc.getBalance());
+            System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
         }
     }
 

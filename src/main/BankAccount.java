@@ -10,8 +10,9 @@ public class BankAccount {
     private String name;
 
     public BankAccount() {
-    this("Unnamed");
-}
+        this("Unnamed");
+    }
+
     public BankAccount(String name) {
         this.name = name;
         this.balance = 0;
@@ -19,9 +20,8 @@ public class BankAccount {
         transactionHistory.add("Account created with balance: " + this.balance);
     }
 
-
     public void deposit(double amount) {
-        if(amount > 0) {
+        if (amount > 0) {
             this.balance += amount;
             transactionHistory.add("Deposited: $" + amount + ", New Balance: $" + this.balance);
         } else {
@@ -33,22 +33,30 @@ public class BankAccount {
         return this.balance;
     }
 
-     public String getName() {
+    public String getName() {
         return this.name;
     }
 
-    //task 8
-    public void collectFee(double feeAmount){
-        if(feeAmount > 0){
+    // iteration 2: bank customer should be able to rename account
+    public void setName(String newName) {
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        this.name = newName;
+        transactionHistory.add("Account renamed to: " + this.name);
+    }
+
+    // task 8
+    public void collectFee(double feeAmount) {
+        if (feeAmount > 0) {
             this.balance -= feeAmount;
             transactionHistory.add("Fee collected: $" + feeAmount + ", New Balance: $" + this.balance);
-        } else{
+        } else {
             throw new IllegalArgumentException();
         }
     }
 
-
-    //A bank customer should be able to withdraw from their account
+    // A bank customer should be able to withdraw from their account
     public void withdraw(double amount) {
         if ((amount > 0) && (this.balance >= amount)) {
             this.balance -= amount;
@@ -58,12 +66,12 @@ public class BankAccount {
         }
     }
 
-    //A bank customer should be able to check their account balance
+    // A bank customer should be able to check their account balance
     public double checkAccountBalance() {
         return this.balance;
     }
 
-    //task 9
+    // task 9
     public void addInterest(double interestAmount) {
         if (interestAmount > 0) {
             this.balance += interestAmount;
@@ -73,17 +81,16 @@ public class BankAccount {
         }
     }
 
-    
-        //A bank customer should be able to view their transaction history for an account
+    // A bank customer should be able to view their transaction history for an
+    // account
     public void viewTransactionHistory() {
-        if (transactionHistory.isEmpty()){
+        if (transactionHistory.isEmpty()) {
             System.out.println("No transactions");
-        }else{
-            for(String transaction : transactionHistory){
+        } else {
+            for (String transaction : transactionHistory) {
                 System.out.println(transaction);
             }
         }
     }
-    
+
 }
-    

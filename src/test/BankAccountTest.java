@@ -23,10 +23,10 @@ public class BankAccountTest {
             testAccount.deposit(-50);
             fail();
         } catch (IllegalArgumentException e) {
-            //do nothing, test passes
+            // do nothing, test passes
         }
     }
-    
+
     @Test
     public void testCollectFee() {
         BankAccount testAccount = new BankAccount();
@@ -41,8 +41,8 @@ public class BankAccountTest {
         try {
             testAccount.collectFee(-10);
             fail();
-        } catch(IllegalArgumentException e){
-            //do nothing, test passes
+        } catch (IllegalArgumentException e) {
+            // do nothing, test passes
         }
     }
 
@@ -60,13 +60,12 @@ public class BankAccountTest {
         try {
             testAccount.withdraw(-50);
             fail();
-        }
-        catch (IllegalArgumentException e) {
-            //do nothing, test passes
+        } catch (IllegalArgumentException e) {
+            // do nothing, test passes
         }
     }
 
-   @Test
+    @Test
     public void testInvalidWithdrawOverdraft() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(50);
@@ -100,15 +99,44 @@ public class BankAccountTest {
             testAccount.addInterest(-10);
             fail();
         } catch (IllegalArgumentException e) {
-        // do nothing, test passes
+            // do nothing, test passes
         }
-    }   
+    }
 
     @Test
     public void testTransactionHistory() {
         BankAccount account = new BankAccount();
         account.deposit(100);
         account.viewTransactionHistory();
+    }
+
+    @Test
+    public void testRenameAccount() {
+        BankAccount testAccount = new BankAccount("OldName");
+        testAccount.setName("NewName");
+        assertEquals("NewName", testAccount.getName());
+    }
+
+    @Test
+    public void testInvalidRenameEmptyName() {
+        BankAccount testAccount = new BankAccount("OldName");
+        try {
+            testAccount.setName("");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
+    public void testInvalidRenameBlankName() {
+        BankAccount testAccount = new BankAccount("OldName");
+        try {
+            testAccount.setName("   ");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
     }
 
 }

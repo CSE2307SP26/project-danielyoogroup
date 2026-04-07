@@ -66,6 +66,25 @@ public class BankTest {
         }
     }
 
+    @Test
+    public void testBankRenameAccount() {
+        Bank bank = new Bank();
+        bank.createAccount("Savings");
+        bank.renameAccount(0, "Emergency Fund");
+        assertEquals("Emergency Fund", bank.getAccount(0).getName());
+    }
 
+    @Test
+    public void testBankRenameInvalidIndex() {
+        Bank bank = new Bank();
+        bank.createAccount("Savings");
+
+        try {
+            bank.renameAccount(1, "Emergency Fund");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
 
 }

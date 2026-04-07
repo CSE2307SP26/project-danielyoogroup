@@ -96,8 +96,6 @@ public class Bank {
             BankAccount acc = accounts.get(i);
             System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
         }
-
-    
     }
 
 }

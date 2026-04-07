@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int BANK_EXIT_SELECTION = 8;
-    private static final int BANK_MAX_SELECTION = 8;
+    private static final int BANK_EXIT_SELECTION = 12;
+    private static final int BANK_MAX_SELECTION = 12;
 
     private static final int ACCOUNT_EXIT_SELECTION = 8;
     private static final int ACCOUNT_MAX_SELECTION = 8;
@@ -13,12 +13,15 @@ public class MainMenu {
     private Bank bank;
     private Scanner keyboardInput;
     private int currentAccountIndex = -1;
+    String userName;
+    String userRole;
+    int userBirthYear;
 
     public MainMenu() {
         this.bank = new Bank();
         this.keyboardInput = new Scanner(System.in);
     }
-
+    
     public void displayBankOptions() {
         System.out.println("Welcome to the 237 Bank App!");
         System.out.println("1. Create account");
@@ -28,7 +31,11 @@ public class MainMenu {
         System.out.println("5. See existing accounts (in order of descending balance)");
         System.out.println("6. Go into an account");
         System.out.println("7: Rename account");
-        System.out.println("8. Exit the app");
+        System.out.println("8. See user details");
+        System.out.println("9. Edit user name");
+        System.out.println("10. Edit user role");
+        System.out.println("11. Edit user birth year");
+        System.out.println("12. Exit the app");
     }
 
     public void displayAccountOptions() {
@@ -77,6 +84,18 @@ public class MainMenu {
                 performRenameAccount();
                 break;
             case 8:
+                performSeeUserDetails();
+                break;
+            case 9:
+                performEditUserName();
+                break;
+            case 10:
+                performEditUserRole();
+                break;
+            case 11:
+                performEditUserBirthYear();
+                break;
+            case 12:
                 System.out.println("Goodbye!");
                 break;
             default:
@@ -291,6 +310,32 @@ public class MainMenu {
             System.out.println("Invalid account or account name.");
         }
     }
+
+    public void performEditUserName() {
+        System.out.print("Enter Name: ");
+        userName = keyboardInput.nextLine();
+        System.out.println("Name change confirmed.");
+    }
+
+    public void performEditUserRole() {
+        System.out.print("Enter Role (customer or banker): ");
+        userRole = keyboardInput.nextLine();
+        System.out.println("Role change confirmed.");
+    }
+
+    public void performEditUserBirthYear() {
+        System.out.print("Enter birth year: ");
+        userBirthYear = keyboardInput.nextInt();
+        System.out.println("Birth year change confirmed.");
+    }
+
+    public void performSeeUserDetails() {
+        System.out.println("User Details: ");
+        System.out.println("Name: " + userName);
+        System.out.println("Role: " + userRole);
+        System.out.println("Birth Year: " + userBirthYear);
+    }
+
 
     public void performFilterTransactionHistory() {
         System.out.println("Choose transaction type to view:");

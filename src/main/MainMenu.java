@@ -4,16 +4,15 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int BANK_EXIT_SELECTION = 6;
-    private static final int BANK_MAX_SELECTION = 6;
+    private static final int BANK_EXIT_SELECTION = 7;
+    private static final int BANK_MAX_SELECTION = 7;
 
-    private static final int ACCOUNT_EXIT_SELECTION =7;
-    private static final int ACCOUNT_MAX_SELECTION =7;
+    private static final int ACCOUNT_EXIT_SELECTION = 7;
+    private static final int ACCOUNT_MAX_SELECTION = 7;
 
     private Bank bank;
     private Scanner keyboardInput;
     private int currentAccountIndex = -1;
-    
 
     public MainMenu() {
         this.bank = new Bank();
@@ -27,7 +26,8 @@ public class MainMenu {
         System.out.println("3. Transfer money");
         System.out.println("4. See existing accounts");
         System.out.println("5. Go into an account");
-        System.out.println("6. Exit the app");
+        System.out.println("6: Rename account");
+        System.out.println("7. Exit the app");
     }
 
     public void displayAccountOptions() {
@@ -69,6 +69,9 @@ public class MainMenu {
                 performSelectAccount();
                 break;
             case 6:
+                performRenameAccount();
+                break;
+            case 7:
                 System.out.println("Goodbye!");
                 break;
             default:
@@ -92,10 +95,11 @@ public class MainMenu {
                 bank.getAccount(currentAccountIndex).viewTransactionHistory();
                 break;
             case 5:
-               performCollectFee();
+                performCollectFee();
                 break;
             case 6:
                 performAddInterest();
+                break;
             case 7:
                 System.out.println("Returning to bank menu.");
                 break;
@@ -105,7 +109,6 @@ public class MainMenu {
         }
     }
 
-    
     public void performDeposit() {
         double depositAmount = -1;
         while (depositAmount < 0) {
@@ -117,7 +120,6 @@ public class MainMenu {
         bank.getAccount(currentAccountIndex).deposit(depositAmount);
         System.out.println("Deposit successful.");
     }
-
 
     public void performWithdrawal() {
         System.out.print("How much would you like to withdraw: ");
@@ -156,7 +158,7 @@ public class MainMenu {
     }
 
     public void performTransfer() {
-        if (bank.getNumberOfAccounts() <2){
+        if (bank.getNumberOfAccounts() < 2) {
             System.out.println("you need at least two accounts to make a transfer.");
             return;
         }
@@ -216,7 +218,7 @@ public class MainMenu {
         bank.createAccount(name);
         System.out.println("Additional account created.");
 
-        if(currentAccountIndex == -1){
+        if (currentAccountIndex == -1) {
             currentAccountIndex = 0;
         }
     }
@@ -226,9 +228,8 @@ public class MainMenu {
         System.out.println();
     }
 
-
-    public void performSelectAccount(){
-        if (bank.getNumberOfAccounts() == 0){
+    public void performSelectAccount() {
+        if (bank.getNumberOfAccounts() == 0) {
             System.out.println("No accounts exist yet.");
             return;
         }
@@ -247,15 +248,36 @@ public class MainMenu {
         }
     }
 
-    public void runAccountMenu(){
+    public void runAccountMenu() {
         int selection = -1;
-        while (selection !=ACCOUNT_EXIT_SELECTION){
+        while (selection != ACCOUNT_EXIT_SELECTION) {
             displayAccountOptions();
-            selection= getUserSelection(ACCOUNT_MAX_SELECTION);
+            selection = getUserSelection(ACCOUNT_MAX_SELECTION);
             processAccountInput(selection);
         }
     }
 
+    public void performRenameAccount() {
+        if (bank.getNumberOfAccounts() == 0) {
+            System.out.println("No accounts exist yet.");
+            return;
+        }
+
+        performListAccounts();
+        System.out.print("Enter the index of the account you want to rename: ");
+        int accountIndex = keyboardInput.nextInt();
+        keyboardInput.nextLine();
+
+        System.out.print("Enter the new name for the account: ");
+        String newName = keyboardInput.nextLine();
+
+        try {
+            bank.renameAccount(accountIndex, newName);
+            System.out.println("Account renamed successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid account or account name.");
+        }
+    }
 
     public void run() {
         int selection = -1;
@@ -269,8 +291,6 @@ public class MainMenu {
     public static void main(String[] args) {
         MainMenu bankApp = new MainMenu();
         bankApp.run();
-        //bankApp.keyboardInput.close();
+        // bankApp.keyboardInput.close();
     }
 }
-
-

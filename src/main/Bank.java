@@ -18,7 +18,6 @@ public class Bank {
         return accounts.size();
     }
 
-
     // create account and store it in the bank
     // //A bank customer should be able to create an additional account with the
     // bank.
@@ -58,7 +57,6 @@ public class Bank {
         }
     }
 
-    // iteration 2
     public void listAccounts() {
         if (accounts.isEmpty()) {
             System.out.println("No accounts exist yet.");
@@ -71,6 +69,14 @@ public class Bank {
             BankAccount acc = accounts.get(i);
             System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
         }
+    }
+
+    // iteration 2: renaming account
+    public void renameAccount(int index, String newName) {
+        if (index < 0 || index >= accounts.size()) {
+            throw new IllegalArgumentException();
+        }
+        accounts.get(index).setName(newName);
     }
 
 }

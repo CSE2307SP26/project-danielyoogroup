@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int BANK_EXIT_SELECTION = 7;
-    private static final int BANK_MAX_SELECTION = 7;
+    private static final int BANK_EXIT_SELECTION = 8;
+    private static final int BANK_MAX_SELECTION = 8;
 
     private static final int ACCOUNT_EXIT_SELECTION = 8;
     private static final int ACCOUNT_MAX_SELECTION = 8;
@@ -24,10 +24,11 @@ public class MainMenu {
         System.out.println("1. Create account");
         System.out.println("2. Close account");
         System.out.println("3. Transfer money");
-        System.out.println("4. See existing accounts");
-        System.out.println("5. Go into an account");
-        System.out.println("6: Rename account");
-        System.out.println("7. Exit the app");
+        System.out.println("4. See existing accounts (in order of creation)");
+        System.out.println("5. See existing accounts (in order of descending balance)");
+        System.out.println("6. Go into an account");
+        System.out.println("7: Rename account");
+        System.out.println("8. Exit the app");
     }
 
     public void displayAccountOptions() {
@@ -67,12 +68,15 @@ public class MainMenu {
                 performListAccounts();
                 break;
             case 5:
-                performSelectAccount();
+                performListAccountsByBalance();
                 break;
             case 6:
-                performRenameAccount();
+                performSelectAccount();
                 break;
             case 7:
+                performRenameAccount();
+                break;
+            case 8:
                 System.out.println("Goodbye!");
                 break;
             default:
@@ -229,6 +233,11 @@ public class MainMenu {
 
     public void performListAccounts() {
         bank.listAccounts();
+        System.out.println();
+    }
+
+    public void performListAccountsByBalance() {
+        bank.listAccountsByBalance();
         System.out.println();
     }
 

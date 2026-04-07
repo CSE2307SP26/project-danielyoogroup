@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Bank {
@@ -69,6 +70,7 @@ public class Bank {
             BankAccount acc = accounts.get(i);
             System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
         }
+
     }
 
     // iteration 2: renaming account
@@ -77,6 +79,25 @@ public class Bank {
             throw new IllegalArgumentException();
         }
         accounts.get(index).setName(newName);
+    }
+
+    //listAccountsByBalance - Iteration 2
+    public void listAccountsByBalance() {
+        if (accounts.isEmpty()) {
+            System.out.println("No accounts exist yet.");
+            return;
+        }
+
+        accounts.sort(Comparator.comparingDouble(BankAccount::getBalance).reversed());
+
+        System.out.println("List of accounts:");
+
+        for (int i = 0; i < accounts.size(); i++) {
+            BankAccount acc = accounts.get(i);
+            System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
+        }
+
+    
     }
 
 }

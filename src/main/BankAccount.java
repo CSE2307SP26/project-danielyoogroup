@@ -93,4 +93,31 @@ public class BankAccount {
         }
     }
 
+    // bank customer should be able to see transaction history by type
+    public void viewFilteredTransactionHistory(String type) {
+        if (type == null || type.trim().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        String lowerType = type.toLowerCase();
+        boolean found = false;
+
+        for (String transaction : transactionHistory) {
+            String lowerTransaction = transaction.toLowerCase();
+
+            if ((lowerType.equals("deposit") && lowerTransaction.contains("deposited")) ||
+                    (lowerType.equals("withdrawal") && lowerTransaction.contains("withdrew")) ||
+                    (lowerType.equals("fee") && lowerTransaction.contains("fee collected")) ||
+                    (lowerType.equals("interest") && lowerTransaction.contains("interest added"))) {
+
+                System.out.println(transaction);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No " + type + " transactions found.");
+        }
+    }
+
 }

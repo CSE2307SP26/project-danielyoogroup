@@ -7,8 +7,8 @@ public class MainMenu {
     private static final int BANK_EXIT_SELECTION = 7;
     private static final int BANK_MAX_SELECTION = 7;
 
-    private static final int ACCOUNT_EXIT_SELECTION = 7;
-    private static final int ACCOUNT_MAX_SELECTION = 7;
+    private static final int ACCOUNT_EXIT_SELECTION = 8;
+    private static final int ACCOUNT_MAX_SELECTION = 8;
 
     private Bank bank;
     private Scanner keyboardInput;
@@ -38,7 +38,8 @@ public class MainMenu {
         System.out.println("4. View transaction history");
         System.out.println("5. Collect fee");
         System.out.println("6. Add interest");
-        System.out.println("7. Back to bank menu");
+        System.out.println("7. Filter transaction history by type");
+        System.out.println("8. Back to bank menu");
     }
 
     public int getUserSelection(int max) {
@@ -101,6 +102,9 @@ public class MainMenu {
                 performAddInterest();
                 break;
             case 7:
+                performFilterTransactionHistory();
+                break;
+            case 8:
                 System.out.println("Returning to bank menu.");
                 break;
             default:
@@ -277,6 +281,39 @@ public class MainMenu {
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid account or account name.");
         }
+    }
+
+    public void performFilterTransactionHistory() {
+        System.out.println("Choose transaction type to view:");
+        System.out.println("1. Deposits");
+        System.out.println("2. Withdrawals");
+        System.out.println("3. Fees");
+        System.out.println("4. Interest");
+        System.out.print("Please make a selection: ");
+
+        int selection = keyboardInput.nextInt();
+        keyboardInput.nextLine();
+
+        String type;
+
+        switch (selection) {
+            case 1:
+                type = "deposit";
+                break;
+            case 2:
+                type = "withdrawal";
+                break;
+            case 3:
+                type = "fee";
+                break;
+            case 4:
+                type = "interest";
+                break;
+            default:
+                System.out.println("Invalid selection.");
+                return;
+        }
+        bank.getAccount(currentAccountIndex).viewFilteredTransactionHistory(type);
     }
 
     public void run() {

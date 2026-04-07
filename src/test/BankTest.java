@@ -12,14 +12,14 @@ public class BankTest {
     @Test
     public void testCreateAccount() {
         Bank bank = new Bank();
-        bank.createAccount();
+        bank.createAccount("Savings");
         assertEquals(1, bank.getNumberOfAccounts());
     }
 
     @Test
     public void testCloseAccount() {
         Bank bank = new Bank();
-        bank.createAccount();
+        bank.createAccount("Savings");
         bank.closeAccount(0);
         assertEquals(0, bank.getNumberOfAccounts());
     }
@@ -27,8 +27,8 @@ public class BankTest {
     @Test
     public void testTransferBetweenAccounts() {
         Bank bank = new Bank();
-        bank.createAccount();
-        bank.createAccount();
+        bank.createAccount("Savings");
+        bank.createAccount("Savings");
 
         bank.getAccount(0).deposit(100);
         bank.transferMoney(0, 1, 40);
@@ -40,7 +40,7 @@ public class BankTest {
     @Test
     public void testInvalidTransferSameAccount() {
         Bank bank = new Bank();
-        bank.createAccount();
+        bank.createAccount("Savings");
 
         try {
             bank.transferMoney(0, 0, 10);
@@ -53,8 +53,8 @@ public class BankTest {
     @Test
     public void testInvalidTransferOverdraft() {
         Bank bank = new Bank();
-        bank.createAccount();
-        bank.createAccount();
+        bank.createAccount("Savings");
+        bank.createAccount("Savings");
 
         bank.getAccount(0).deposit(20);
 

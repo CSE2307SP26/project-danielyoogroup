@@ -4,44 +4,80 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int EXIT_SELECTION = 10;
-	private static final int MAX_SELECTION = 10;
+    private static final int BANK_EXIT_SELECTION = 6;
+    private static final int BANK_MAX_SELECTION = 6;
+
+    private static final int ACCOUNT_EXIT_SELECTION =7;
+    private static final int ACCOUNT_MAX_SELECTION =7;
 
     private Bank bank;
-	private BankAccount userAccount;
     private Scanner keyboardInput;
+    private int currentAccountIndex = -1;
+    
 
     public MainMenu() {
         this.bank = new Bank();
-        this.userAccount = new BankAccount();
         this.keyboardInput = new Scanner(System.in);
     }
 
-    public void displayOptions() {
+    public void displayBankOptions() {
         System.out.println("Welcome to the 237 Bank App!");
+        System.out.println("1. Create account");
+        System.out.println("2. Close account");
+        System.out.println("3. Transfer money");
+        System.out.println("4. See existing accounts");
+        System.out.println("5. Go into an account");
+        System.out.println("6. Exit the app");
+    }
+
+    public void displayAccountOptions() {
+        System.out.println("Account Menu");
         System.out.println("1. Make a deposit");
         System.out.println("2. Make a withdrawal");
         System.out.println("3. Check account balance");
         System.out.println("4. View transaction history");
-        System.out.println("5. Create additional account");
-        System.out.println("6. Close account");
-        System.out.println("7. Transfer money");
-        System.out.println("8. Collect fee");
-        System.out.println("9. Add interest");
-        System.out.println("10. Exit the app");
-
+        System.out.println("5. Collect fee");
+        System.out.println("6. Add interest");
+        System.out.println("7. Back to bank menu");
     }
 
     public int getUserSelection(int max) {
         int selection = -1;
-        while(selection < 1 || selection > max) {
+        while (selection < 1 || selection > max) {
             System.out.print("Please make a selection: ");
             selection = keyboardInput.nextInt();
+            keyboardInput.nextLine();
         }
         return selection;
     }
 
-    public void processInput(int selection) {
+    public void processBankInput(int selection) {
+        switch (selection) {
+            case 1:
+                performCreateAdditionalAccount();
+                break;
+            case 2:
+                performCloseAccount();
+                break;
+            case 3:
+                performTransfer();
+                break;
+            case 4:
+                performListAccounts();
+                break;
+            case 5:
+                performSelectAccount();
+                break;
+            case 6:
+                System.out.println("Goodbye!");
+                break;
+            default:
+                System.out.println("Invalid selection.");
+                break;
+        }
+    }
+
+    public void processAccountInput(int selection) {
         switch (selection) {
             case 1:
                 performDeposit();
@@ -53,25 +89,15 @@ public class MainMenu {
                 performCheckBalance();
                 break;
             case 4:
-                userAccount.viewTransactionHistory();
+                bank.getAccount(currentAccountIndex).viewTransactionHistory();
                 break;
             case 5:
-                performCreateAdditionalAccount();
+               performCollectFee();
                 break;
             case 6:
-                performCloseAccount();
-                break;
-            case 7:
-                performTransfer();
-                break;
-            case 8:
-                performCollectFee();
-                break;
-            case 9:
                 performAddInterest();
-                break;
-            case 10:
-                System.out.println("Goodbye!");
+            case 7:
+                System.out.println("Returning to bank menu.");
                 break;
             default:
                 System.out.println("Invalid selection.");
@@ -79,20 +105,27 @@ public class MainMenu {
         }
     }
 
+    
     public void performDeposit() {
         double depositAmount = -1;
-        while(depositAmount < 0) {
+        while (depositAmount < 0) {
             System.out.print("How much would you like to deposit: ");
-            depositAmount = keyboardInput.nextInt();
+            depositAmount = keyboardInput.nextDouble();
+            keyboardInput.nextLine();
         }
-        userAccount.deposit(depositAmount);
+
+        bank.getAccount(currentAccountIndex).deposit(depositAmount);
+        System.out.println("Deposit successful.");
     }
+
+
     public void performWithdrawal() {
         System.out.print("How much would you like to withdraw: ");
         double withdrawAmount = keyboardInput.nextDouble();
+        keyboardInput.nextLine();
 
         try {
-            userAccount.withdraw(withdrawAmount);
+            bank.getAccount(currentAccountIndex).withdraw(withdrawAmount);
             System.out.println("Withdrawal successful.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid withdrawal amount.");
@@ -100,12 +133,19 @@ public class MainMenu {
     }
 
     public void performCheckBalance() {
-        System.out.println("Current balance: $" + userAccount.checkAccountBalance());
+        System.out.println("Current balance: $" + bank.getAccount(currentAccountIndex).checkAccountBalance());
     }
 
     public void performCloseAccount() {
+        if (bank.getNumberOfAccounts() == 0) {
+            System.out.println("No accounts exist yet.");
+            return;
+        }
+
+        performListAccounts();
         System.out.print("Enter account index to close: ");
         int accountIndex = keyboardInput.nextInt();
+        keyboardInput.nextLine();
 
         try {
             bank.closeAccount(accountIndex);
@@ -116,14 +156,23 @@ public class MainMenu {
     }
 
     public void performTransfer() {
+        if (bank.getNumberOfAccounts() <2){
+            System.out.println("you need at least two accounts to make a transfer.");
+            return;
+        }
+        performListAccounts();
+
         System.out.print("Enter source account index: ");
         int sourceIndex = keyboardInput.nextInt();
+        keyboardInput.nextLine();
 
         System.out.print("Enter destination account index: ");
         int destinationIndex = keyboardInput.nextInt();
+        keyboardInput.nextLine();
 
         System.out.print("How much would you like to transfer: ");
         double transferAmount = keyboardInput.nextDouble();
+        keyboardInput.nextLine();
 
         try {
             bank.transferMoney(sourceIndex, destinationIndex, transferAmount);
@@ -138,9 +187,10 @@ public class MainMenu {
     public void performCollectFee() {
         System.out.print("Enter fee amount: ");
         double feeAmount = keyboardInput.nextDouble();
+        keyboardInput.nextLine();
 
         try {
-            userAccount.collectFee(feeAmount);
+            bank.getAccount(currentAccountIndex).collectFee(feeAmount);
             System.out.println("Fee collected.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid fee amount.");
@@ -150,9 +200,10 @@ public class MainMenu {
     public void performAddInterest() {
         System.out.print("Enter interest amount: ");
         double interestAmount = keyboardInput.nextDouble();
+        keyboardInput.nextLine();
 
         try {
-            userAccount.addInterest(interestAmount);
+            bank.getAccount(currentAccountIndex).addInterest(interestAmount);
             System.out.println("Interest added.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid interest amount.");
@@ -160,23 +211,66 @@ public class MainMenu {
     }
 
     public void performCreateAdditionalAccount() {
-        bank.createAccount();
+        System.out.println("What is the name of the account you would like to create?");
+        String name = keyboardInput.nextLine();
+        bank.createAccount(name);
         System.out.println("Additional account created.");
+
+        if(currentAccountIndex == -1){
+            currentAccountIndex = 0;
+        }
+    }
+
+    public void performListAccounts() {
+        bank.listAccounts();
+        System.out.println();
+    }
+
+
+    public void performSelectAccount(){
+        if (bank.getNumberOfAccounts() == 0){
+            System.out.println("No accounts exist yet.");
+            return;
+        }
+        performListAccounts();
+        System.out.print("Enter the index of the account you want to use:");
+        int accountIndex = keyboardInput.nextInt();
+        keyboardInput.nextLine();
+
+        try {
+            bank.getAccount(accountIndex);
+            currentAccountIndex = accountIndex;
+            System.out.println("You are now using account: " + bank.getAccount(currentAccountIndex).getName() + ".");
+            runAccountMenu();
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid account.");
+        }
+    }
+
+    public void runAccountMenu(){
+        int selection = -1;
+        while (selection !=ACCOUNT_EXIT_SELECTION){
+            displayAccountOptions();
+            selection= getUserSelection(ACCOUNT_MAX_SELECTION);
+            processAccountInput(selection);
+        }
     }
 
 
     public void run() {
         int selection = -1;
-        while(selection != EXIT_SELECTION) {
-            displayOptions();
-            selection = getUserSelection(MAX_SELECTION);
-            processInput(selection);
+        while (selection != BANK_EXIT_SELECTION) {
+            displayBankOptions();
+            selection = getUserSelection(BANK_MAX_SELECTION);
+            processBankInput(selection);
         }
     }
 
     public static void main(String[] args) {
         MainMenu bankApp = new MainMenu();
         bankApp.run();
+        //bankApp.keyboardInput.close();
     }
-
 }
+
+

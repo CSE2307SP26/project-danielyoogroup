@@ -7,12 +7,18 @@ public class BankAccount {
 
     private double balance;
     private List<String> transactionHistory;
+    private String name;
 
     public BankAccount() {
+    this("Unnamed");
+}
+    public BankAccount(String name) {
+        this.name = name;
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
         transactionHistory.add("Account created with balance: " + this.balance);
     }
+
 
     public void deposit(double amount) {
         if(amount > 0) {
@@ -25,6 +31,10 @@ public class BankAccount {
 
     public double getBalance() {
         return this.balance;
+    }
+
+     public String getName() {
+        return this.name;
     }
 
     //task 8

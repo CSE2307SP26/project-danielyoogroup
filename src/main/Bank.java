@@ -7,11 +7,12 @@ import java.util.List;
 public class Bank {
 
     private List<BankAccount> accounts; // banks list of all accounts
-
+    private boolean isFrozen; // whether the bank is frozen or not
     // constructor (when a bank is created it starts with no accounts)
 
     public Bank() {
         this.accounts = new ArrayList<>();
+        this.isFrozen = false;
     }
 
     // want this method for the test method

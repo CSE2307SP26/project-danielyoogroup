@@ -7,8 +7,8 @@ public class MainMenu {
     private static final int ROLE_EXIT_SELECTION = 3;
     private static final int ROLE_MAX_SELECTION = 3;
 
-    private static final int CUSTOMER_EXIT_SELECTION = 10;
-    private static final int CUSTOMER_MAX_SELECTION = 10;
+    private static final int CUSTOMER_EXIT_SELECTION = 12;
+    private static final int CUSTOMER_MAX_SELECTION = 12;
 
     private static final int ADMIN_EXIT_SELECTION = 6;
     private static final int ADMIN_MAX_SELECTION = 6;
@@ -19,6 +19,7 @@ public class MainMenu {
     private Bank bank;
     private Scanner keyboardInput;
     private int currentAccountIndex = -1;
+    private boolean isFrozen = false; 
 
     String userName;
     int userBirthYear;
@@ -37,6 +38,7 @@ public class MainMenu {
         System.out.println("3. Exit the app");
     }
 
+
     public void displayCustomerOptions() {
         System.out.println("Customer Menu");
         System.out.println("1. Create account");
@@ -48,7 +50,8 @@ public class MainMenu {
         System.out.println("7. Rename account");
         System.out.println("8. See user details");
         System.out.println("9. Edit user details");
-        System.out.println("10. Back");
+        System.out.println("10. Freeze account");
+        System.out.println("11. Back");
     }
 
     public void displayAdminOptions() {
@@ -83,6 +86,11 @@ public class MainMenu {
     }
 
     public void processCustomerInput(int selection) {
+        if (isFrozen) {
+            System.out.println("Your account is frozen. Please contact customer service to unfreeze your account.");
+            System.exit(0);
+            return;
+        }
         switch (selection) {
             case 1:
                 performCreateAdditionalAccount();
@@ -112,6 +120,10 @@ public class MainMenu {
                 performEditUserDetails();
                 break;
             case 10:
+                performFreezeAccount();
+                System.exit(0);
+                break;
+            case 11:
                 System.out.println("Returning to main menu.");
                 break;
             default:
@@ -410,6 +422,18 @@ public class MainMenu {
         keyboardInput.nextLine();
 
         System.out.println("User details updated.");
+    }
+
+    public void performFreezeAccount() {
+
+        System.out.println("Are you sure you want to freeze your account? (yes or no): ");
+        String input = keyboardInput.nextLine();
+        if (input.equalsIgnoreCase("yes")) {
+            isFrozen = true;
+            System.out.println("Your account has been frozen. You will not be able to make transactions until you contact customer service.");
+        } else {
+            System.out.println("Account freeze cancelled.");
+        }
     }
 
     public void performFilterTransactionHistory() {

@@ -139,4 +139,20 @@ public class BankAccountTest {
         }
     }
 
+    @Test
+    public void testSetPin() {
+        BankAccount account = new BankAccount("Checking");
+        account.setPin("1234");
+        assertEquals(true, account.isPinProtected());
+    }
+
+    @Test
+    public void testCheckPin() {
+        BankAccount account = new BankAccount("Checking");
+        account.setPin("1234");
+        assertEquals(true, account.checkPin("1234"));
+}
+
+
+
 }

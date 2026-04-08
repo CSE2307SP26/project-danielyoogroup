@@ -304,13 +304,30 @@ public class MainMenu {
     }
 
     public void performCreateAdditionalAccount() {
-        System.out.println("What is the name of the account you would like to create?");
+        System.out.print("What is the name of the account you would like to create? ");
         String name = keyboardInput.nextLine();
-        bank.createAccount(name);
+
+        BankAccount newAccount = bank.createAccount(name);
+
+        System.out.print("Would you like to protect this account with a PIN? (yes or no): ");
+        String input = keyboardInput.nextLine();
+
+        if (input.equalsIgnoreCase("yes")) {
+            System.out.print("Enter a 4 digit PIN for this account: ");
+            String customerPin = keyboardInput.nextLine();
+
+            try {
+                newAccount.setPin(customerPin);
+                System.out.println("PIN protection added.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid PIN. Account created without PIN protection.");
+            }
+        }
+
         System.out.println("Additional account created.");
 
         if (currentAccountIndex == -1) {
-            currentAccountIndex = 0;
+        currentAccountIndex = 0;
         }
     }
 
@@ -335,7 +352,18 @@ public class MainMenu {
         keyboardInput.nextLine();
 
         try {
-            bank.getAccount(accountIndex);
+            BankAccount selectedAccount = bank.getAccount(accountIndex);
+
+            if (selectedAccount.isPinProtected()){
+                System.out.print("Enter PIN for this account: ");
+                String enteredPin = keyboardInput.nextLine();
+
+                if (!selectedAccount.checkPin(enteredPin)) {
+                    System.out.println("Incorrect PIN.");
+                    return;
+                }
+            }
+
             currentAccountIndex = accountIndex;
             System.out.println("You are now using account: " + bank.getAccount(currentAccountIndex).getName() + ".");
             runAccountMenu();

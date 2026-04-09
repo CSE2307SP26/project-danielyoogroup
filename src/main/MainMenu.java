@@ -51,7 +51,8 @@ public class MainMenu {
         System.out.println("8. See user details");
         System.out.println("9. Edit user details");
         System.out.println("10. Freeze account");
-        System.out.println("11. Back");
+        System.out.println("11. Set savings goal");
+        System.out.println("12. Back");
     }
 
     public void displayAdminOptions() {
@@ -124,6 +125,9 @@ public class MainMenu {
                 System.exit(0);
                 break;
             case 11:
+                performSavingsGoal();
+                break;
+            case 12:
                 System.out.println("Returning to main menu.");
                 break;
             default:
@@ -467,6 +471,17 @@ public class MainMenu {
                 return;
         }
         bank.getAccount(currentAccountIndex).viewFilteredTransactionHistory(type);
+    }
+
+    //iteration 2, establish and view savings goal
+    public void performSavingsGoal(){
+        System.out.print("Enter your savings goal amount: ");
+        double goalAmount = keyboardInput.nextDouble();
+        keyboardInput.nextLine();
+
+        bank.setSavingsGoal(goalAmount); 
+        System.out.println("Your savings goal of $" + goalAmount + " has been set.");
+        System.out.println("You are currently $" + (goalAmount - bank.getAccount(currentAccountIndex).checkAccountBalance()) + " away from your goal.");
     }
 
     public void runCustomerMenu() {

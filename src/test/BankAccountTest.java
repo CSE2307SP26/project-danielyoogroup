@@ -1,9 +1,12 @@
 package test;
 
+import main.Bank;
 import main.BankAccount;
+import main.MainMenu;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -152,7 +155,20 @@ public class BankAccountTest {
         account.setPin("1234");
         assertEquals(true, account.checkPin("1234"));
 }
+    @Test
+    public void testSetSavingsGoal() {
+        Bank bank = new Bank();
+        bank.setSavingsGoal(500.0);
+        assertEquals(500.0, bank.savingsGoal, 0.01);
+    }
 
+    @Test
+    public void testFreezeAccountFlag() {
+        MainMenu menu = new MainMenu();
+        // Simulate freezing the account
+        menu.performFreezeAccount();
+        assertTrue(menu.isFrozen);
+    }
 
 
 }

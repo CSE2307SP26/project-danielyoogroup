@@ -19,6 +19,14 @@
 7. A bank customer should be able to transfer money from one account to another. (Shelby)  
 8. A bank adminstrator should be able to collect fees from existing accounts when necessary. (Daniel)
 9. A bank adminstrator should be able to add an interest payment to an existing account when necessary. (Daniel)
+10. A bank customer should be able to enter, view, and update their personal information (Anne)
+11. A bank customer should be able to see accounts sorted by amount (Anne)
+12. A bank customer should be able to freeze their account (Marc)
+13. A bank customer should be able to create a savings goal (Marc)
+14. A bank customer should be able to protect an account with a PIN. (Shelby)
+15. A bank customer should be able to create different types of accounts. (Shelby
+16. A bank customer should be able to filter transaction history by transaction type. (Daniel)
+17. A bank customer should be able to rename an existing account. (Daniel)
 
 ## What user stories do you intend to complete next iteration?
 We roughly completed every user story, but we are planning on cleaning the code for the next iteration. 

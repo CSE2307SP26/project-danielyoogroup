@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # project26
 
 ## Team Members:
@@ -35,3 +36,6 @@ Everything works, but may not be most optimal.
 
 3. run it: 
    ./runApp.sh
+=======
+# project26
+>>>>>>> development

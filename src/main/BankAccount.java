@@ -7,17 +7,25 @@ public class BankAccount {
 
     private double balance;
     private List<String> transactionHistory;
-    private List<BankAccount> otherAccounts;
+    private String name;
+    private boolean pinProtected;
+    private String pin;
 
     public BankAccount() {
+        this("Unnamed");
+    }
+
+    public BankAccount(String name) {
+        this.name = name;
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
-        this.otherAccounts = new ArrayList<>();
         transactionHistory.add("Account created with balance: " + this.balance);
+        this.pinProtected = false;
+        this.pin = null;
     }
 
     public void deposit(double amount) {
-        if(amount > 0) {
+        if (amount > 0) {
             this.balance += amount;
             transactionHistory.add("Deposited: $" + amount + ", New Balance: $" + this.balance);
         } else {
@@ -29,73 +37,110 @@ public class BankAccount {
         return this.balance;
     }
 
-    public void closeAccount() {
-    this.balance = 0;
-}
-    //task 8
-    public void collectFee(double feeAmount){
-        if(feeAmount > 0){
+    public String getName() {
+        return this.name;
+    }
+
+    public void setPin(String pin){
+        if (pin==null || pin.trim().isEmpty()){
+            throw new IllegalArgumentException();
+        }
+        this.pin = pin;
+        this.pinProtected = true;
+        transactionHistory.add("PIN protection added to account.");
+    }
+
+    public boolean isPinProtected(){
+        return this.pinProtected;
+    }
+
+    public boolean checkPin(String inputedPin){
+        if (!pinProtected)
+            return true;
+        return pin.equals(inputedPin);
+    }
+
+    // iteration 2: bank customer should be able to rename account
+    public void setName(String newName) {
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        this.name = newName;
+        transactionHistory.add("Account renamed to: " + this.name);
+    }
+
+    // task 8
+    public void collectFee(double feeAmount) {
+        if (feeAmount > 0) {
             this.balance -= feeAmount;
-        } else{
+            transactionHistory.add("Fee collected: $" + feeAmount + ", New Balance: $" + this.balance);
+        } else {
             throw new IllegalArgumentException();
         }
     }
 
-
-    //A bank customer should be able to withdraw from their account
+    // A bank customer should be able to withdraw from their account
     public void withdraw(double amount) {
         if ((amount > 0) && (this.balance >= amount)) {
             this.balance -= amount;
+            transactionHistory.add("Withdrew: $" + amount + ", New Balance: $" + this.balance);
         } else {
             throw new IllegalArgumentException();
-            }
         }
+    }
 
-    //A bank customer should be able to check their account balance
+    // A bank customer should be able to check their account balance
     public double checkAccountBalance() {
         return this.balance;
     }
 
-    //task 9
+    // task 9
     public void addInterest(double interestAmount) {
-    if (interestAmount > 0) {
-        this.balance += interestAmount;
-    } else {
-        throw new IllegalArgumentException();
-    }
+        if (interestAmount > 0) {
+            this.balance += interestAmount;
+            transactionHistory.add("Interest added: $" + interestAmount + ", New Balance: $" + this.balance);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
-    public void transferMoney (BankAccount destinationAccount, double transferAmount) {
-        if (destinationAccount == null){
-            throw new IllegalArgumentException(); //the destination account not valid
-        }
-        this.withdraw(transferAmount);  //does the validation
-        destinationAccount.deposit(transferAmount);
-
-        }
-    
-        //A bank customer should be able to view their transaction history for an account
-        public void viewTransactionHistory() {
-            if (transactionHistory.isEmpty()){
-                System.out.println("No transactions");
-            }
-            else{
-                for(String transaction : transactionHistory){
-                    System.out.println(transaction);
-                }
+    // A bank customer should be able to view their transaction history for an
+    // account
+    public void viewTransactionHistory() {
+        if (transactionHistory.isEmpty()) {
+            System.out.println("No transactions");
+        } else {
+            for (String transaction : transactionHistory) {
+                System.out.println(transaction);
             }
         }
-        
-         //A bank customer should be able to create an additional account with the bank.
-         public void createAdditionalAccount(){
-            BankAccount newAccount = new BankAccount();
-            otherAccounts.add(newAccount);
-            System.out.println("New account with balance: $" + newAccount.getBalance() + " created.");
-         }
-    
-         //check extra accounts 
-         public List<BankAccount> getOtherAccounts() {
-            return otherAccounts;
-         }  
     }
-    
+
+    // bank customer should be able to see transaction history by type
+    public void viewFilteredTransactionHistory(String type) {
+        if (type == null || type.trim().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        String lowerType = type.toLowerCase();
+        boolean found = false;
+
+        for (String transaction : transactionHistory) {
+            String lowerTransaction = transaction.toLowerCase();
+
+            if ((lowerType.equals("deposit") && lowerTransaction.contains("deposited")) ||
+                    (lowerType.equals("withdrawal") && lowerTransaction.contains("withdrew")) ||
+                    (lowerType.equals("fee") && lowerTransaction.contains("fee collected")) ||
+                    (lowerType.equals("interest") && lowerTransaction.contains("interest added"))) {
+
+                System.out.println(transaction);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No " + type + " transactions found.");
+        }
+    }  
+
+}

@@ -10,7 +10,7 @@
 
 ## User stories
 
-1. A bank customer should be able to deposit into an existing account. (Shook)
+1. 
 2. A bank customer should be able to withdraw from an account. (Anne)
 3. A bank customer should be able to check their account balance. (Anne)
 4. A bank customer should be able to view their transaction history for an account. (Marc)
@@ -29,7 +29,7 @@
 17. A bank customer should be able to rename an existing account. (Daniel)
 
 ## What user stories do you intend to complete next iteration?
-We roughly completed every user story, but we are planning on cleaning the code for the next iteration. 
+We haven't come up with specific user stories for next iteration but a possible theme would be to help users better understand, organize, and analyze their financial activity or enhance visibility and control over personal finances.
 
 ## Is there anything that you implemented but doesn't currently work?
 Everything works, but may not be most optimal. 

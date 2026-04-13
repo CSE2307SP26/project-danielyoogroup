@@ -8,8 +8,6 @@ public class BankAccount {
     private double balance;
     private List<String> transactionHistory;
     private String name;
-    private boolean pinProtected;
-    private String pin;
 
     public BankAccount() {
         this("Unnamed");
@@ -20,8 +18,6 @@ public class BankAccount {
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
         transactionHistory.add("Account created with balance: " + this.balance);
-        this.pinProtected = false;
-        this.pin = null;
     }
 
     public void deposit(double amount) {
@@ -41,24 +37,6 @@ public class BankAccount {
         return this.name;
     }
 
-    public void setPin(String pin){
-        if (pin==null || pin.trim().isEmpty()){
-            throw new IllegalArgumentException();
-        }
-        this.pin = pin;
-        this.pinProtected = true;
-        transactionHistory.add("PIN protection added to account.");
-    }
-
-    public boolean isPinProtected(){
-        return this.pinProtected;
-    }
-
-    public boolean checkPin(String inputedPin){
-        if (!pinProtected)
-            return true;
-        return pin.equals(inputedPin);
-    }
 
     // iteration 2: bank customer should be able to rename account
     public void setName(String newName) {

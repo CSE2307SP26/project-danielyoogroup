@@ -7,13 +7,11 @@ import java.util.List;
 public class Bank {
 
     private List<BankAccount> accounts; // banks list of all accounts
-    private boolean isFrozen; // whether the bank is frozen or not
     public double savingsGoal; // the savings goal for the user
     // constructor (when a bank is created it starts with no accounts)
 
     public Bank() {
         this.accounts = new ArrayList<>();
-        this.isFrozen = false;
         this.savingsGoal = 0.0;
     }
 

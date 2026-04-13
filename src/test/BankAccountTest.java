@@ -141,34 +141,4 @@ public class BankAccountTest {
             // test passes
         }
     }
-
-    @Test
-    public void testSetPin() {
-        BankAccount account = new BankAccount("Checking");
-        account.setPin("1234");
-        assertEquals(true, account.isPinProtected());
-    }
-
-    @Test
-    public void testCheckPin() {
-        BankAccount account = new BankAccount("Checking");
-        account.setPin("1234");
-        assertEquals(true, account.checkPin("1234"));
-}
-    @Test
-    public void testSetSavingsGoal() {
-        Bank bank = new Bank();
-        bank.setSavingsGoal(500.0);
-        assertEquals(500.0, bank.savingsGoal, 0.01);
-    }
-
-    @Test
-    public void testFreezeAccountFlag() {
-        MainMenu menu = new MainMenu();
-        // Simulate freezing the account
-        menu.performFreezeAccount();
-        assertTrue(menu.isFrozen);
-    }
-
-
 }

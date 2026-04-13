@@ -17,18 +17,15 @@ public class MainMenu {
     private static final int ACCOUNT_MAX_SELECTION = 6;
 
     private Bank bank;
+    private Customer customer;
     private Scanner keyboardInput;
     private int currentAccountIndex = -1;
-    private boolean isFrozen = false; 
 
-    String userName;
-    int userBirthYear;
 
     public MainMenu() {
         this.bank = new Bank();
         this.keyboardInput = new Scanner(System.in);
-        this.userName = "Default User";
-        this.userBirthYear = 0;
+        this.customer = new Customer();
     }
     
     public void displayRoleOptions() {
@@ -87,7 +84,7 @@ public class MainMenu {
     }
 
     public void processCustomerInput(int selection) {
-        if (isFrozen) {
+        if (customer.isFrozen()) {
             System.out.println("Your account is frozen. Please contact customer service to unfreeze your account.");
             System.exit(0);
             return;
@@ -193,11 +190,14 @@ public class MainMenu {
 
     public void makeCustomerDetails() {
         System.out.print("Enter username: ");
-        userName = keyboardInput.nextLine();
+        String userName = keyboardInput.nextLine();
 
         System.out.print("Enter birth year: ");
-        userBirthYear = keyboardInput.nextInt();
+        int userBirthYear = keyboardInput.nextInt();
         keyboardInput.nextLine();
+
+        customer.setUserName(userName);
+        customer.setUserBirthYear(userBirthYear);
     }
 
 
@@ -323,22 +323,22 @@ public class MainMenu {
         System.out.print("What is the name of the account you would like to create? ");
         String name = keyboardInput.nextLine();
 
-        BankAccount newAccount = bank.createAccount(name);
+        bank.createAccount(name);
 
         System.out.print("Would you like to protect this account with a PIN? (yes or no): ");
         String input = keyboardInput.nextLine();
 
         if (input.equalsIgnoreCase("yes")) {
-            System.out.print("Enter a 4 digit PIN for this account: ");
+            System.out.print("Enter a 4 digit PIN for this customer: ");
             String customerPin = keyboardInput.nextLine();
 
-            try {
-                newAccount.setPin(customerPin);
-                System.out.println("PIN protection added.");
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid PIN. Account created without PIN protection.");
-            }
+        try {
+            customer.setPin(customerPin);
+            System.out.println("PIN protection added.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid PIN. Account created without PIN protection.");
         }
+    }
 
         System.out.println("Additional account created.");
 
@@ -370,18 +370,18 @@ public class MainMenu {
         try {
             BankAccount selectedAccount = bank.getAccount(accountIndex);
 
-            if (selectedAccount.isPinProtected()){
-                System.out.print("Enter PIN for this account: ");
+            if (customer.hasPin()) {
+                System.out.print("Enter PIN for this customer: ");
                 String enteredPin = keyboardInput.nextLine();
 
-                if (!selectedAccount.checkPin(enteredPin)) {
+                if (!customer.checkPin(enteredPin)) {
                     System.out.println("Incorrect PIN.");
                     return;
                 }
             }
 
             currentAccountIndex = accountIndex;
-            System.out.println("You are now using account: " + bank.getAccount(currentAccountIndex).getName() + ".");
+            System.out.println("You are now using account: " + selectedAccount.getName() + ".");
             runAccountMenu();
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid account.");
@@ -413,27 +413,30 @@ public class MainMenu {
     
     public void performSeeUserDetails() {
         System.out.println("User Details:");
-        System.out.println("Username: " + userName);
-        System.out.println("Birth Year: " + userBirthYear);
+        System.out.println("Username: " + customer.getUserName());
+        System.out.println("Birth Year: " + customer.getUserBirthYear());
     }
 
     public void performEditUserDetails() {
         System.out.print("Enter new username: ");
-        userName = keyboardInput.nextLine();
+        String newUserName = keyboardInput.nextLine();
 
         System.out.print("Enter new birth year: ");
-        userBirthYear = keyboardInput.nextInt();
+        int newBirthYear = keyboardInput.nextInt();
         keyboardInput.nextLine();
+
+        customer.setUserName(newUserName);
+        customer.setUserBirthYear(newBirthYear);
 
         System.out.println("User details updated.");
     }
 
     public void performFreezeAccount() {
-
         System.out.println("Are you sure you want to freeze your account? (yes or no): ");
         String input = keyboardInput.nextLine();
+
         if (input.equalsIgnoreCase("yes")) {
-            isFrozen = true;
+            customer.freeze();
             System.out.println("Your account has been frozen. You will not be able to make transactions until you contact customer service.");
         } else {
             System.out.println("Account freeze cancelled.");

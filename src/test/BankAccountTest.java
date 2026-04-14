@@ -1,12 +1,9 @@
 package test;
 
-import main.Bank;
 import main.BankAccount;
-import main.MainMenu;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +23,7 @@ public class BankAccountTest {
             testAccount.deposit(-50);
             fail();
         } catch (IllegalArgumentException e) {
-            // do nothing, test passes
+            // test passes
         }
     }
 
@@ -45,7 +42,7 @@ public class BankAccountTest {
             testAccount.collectFee(-10);
             fail();
         } catch (IllegalArgumentException e) {
-            // do nothing, test passes
+            // test passes
         }
     }
 
@@ -64,7 +61,7 @@ public class BankAccountTest {
             testAccount.withdraw(-50);
             fail();
         } catch (IllegalArgumentException e) {
-            // do nothing, test passes
+            // test passes
         }
     }
 
@@ -102,15 +99,8 @@ public class BankAccountTest {
             testAccount.addInterest(-10);
             fail();
         } catch (IllegalArgumentException e) {
-            // do nothing, test passes
+            // test passes
         }
-    }
-
-    @Test
-    public void testTransactionHistory() {
-        BankAccount account = new BankAccount();
-        account.deposit(100);
-        account.viewTransactionHistory();
     }
 
     @Test
@@ -140,5 +130,12 @@ public class BankAccountTest {
         } catch (IllegalArgumentException e) {
             // test passes
         }
+    }
+
+    @Test
+    public void testTransactionHistory() {
+        BankAccount account = new BankAccount();
+        account.deposit(100);
+        account.viewTransactionHistory();
     }
 }

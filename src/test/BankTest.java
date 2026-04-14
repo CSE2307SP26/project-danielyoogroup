@@ -25,9 +25,20 @@ public class BankTest {
     }
 
     @Test
+    public void testInvalidCloseAccount() {
+        Bank bank = new Bank();
+        try {
+            bank.closeAccount(0);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
     public void testTransferBetweenAccounts() {
         Bank bank = new Bank();
-        bank.createAccount("Savings");
+        bank.createAccount("Checking");
         bank.createAccount("Savings");
 
         bank.getAccount(0).deposit(100);
@@ -53,7 +64,7 @@ public class BankTest {
     @Test
     public void testInvalidTransferOverdraft() {
         Bank bank = new Bank();
-        bank.createAccount("Savings");
+        bank.createAccount("Checking");
         bank.createAccount("Savings");
 
         bank.getAccount(0).deposit(20);
@@ -86,5 +97,4 @@ public class BankTest {
             // test passes
         }
     }
-
 }

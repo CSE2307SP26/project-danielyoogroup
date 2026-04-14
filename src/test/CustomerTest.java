@@ -94,6 +94,17 @@ public class CustomerTest {
     }
 
     @Test
+    public void testInvalidPinBlank() {
+        Customer customer = new Customer();
+        try {
+            customer.setPin("   ");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
     public void testFreezeCustomer() {
         Customer customer = new Customer();
         customer.freeze();

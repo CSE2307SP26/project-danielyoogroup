@@ -7,12 +7,10 @@ import java.util.List;
 public class Bank {
 
     private List<BankAccount> accounts; // banks list of all accounts
-    public double savingsGoal; // the savings goal for the user
+    
     // constructor (when a bank is created it starts with no accounts)
-
     public Bank() {
         this.accounts = new ArrayList<>();
-        this.savingsGoal = 0.0;
     }
 
     // want this method for the test method
@@ -37,13 +35,10 @@ public class Bank {
         return accounts.get(index);
     }
 
-    public void setSavingsGoal(double amount) {
-        this.savingsGoal = amount;
-    }
-    // I think this should just be remove the account from the list not make the
-    // balance zero** "accounts.remove(index);" also real world the account has to
-    // have 0 balance before you close so maybe we could add that....
     public void closeAccount(int index) {
+        if (index < 0 || index >= accounts.size()) {
+            throw new IllegalArgumentException();
+        }
         accounts.remove(index);
     }
 

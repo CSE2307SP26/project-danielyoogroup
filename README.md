@@ -31,11 +31,16 @@ Iteration 2
 7. A bank customer should be able to filter transaction history by transaction type. (Daniel)
 8. A bank customer should be able to rename an existing account. (Daniel)
 
+Iteration 3
+
+7. The system should lock an account after multiple incorrect PIN attempts. (Daniel)
+8. A customer should be able to view summary statistics for an account. (Daniel)
+
 ## What user stories do you intend to complete next iteration?
-We haven't come up with specific user stories for next iteration but a possible theme would be to help users better understand, organize, and analyze their financial activity or enhance visibility and control over personal finances.
+This is the final iteration
 
 ## Is there anything that you implemented but doesn't currently work?
-Everything works, but may not be most optimal. 
+Everything works.
 
 ## What commands are needed to compile and run your code from the command line?
 

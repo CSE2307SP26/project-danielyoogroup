@@ -4,14 +4,16 @@ import java.util.Scanner;
 
 public class AdminMenu {
 
-    private static final int ADMIN_EXIT_SELECTION = 6;
-    private static final int ADMIN_MAX_SELECTION = 6;
+    private static final int ADMIN_EXIT_SELECTION = 7;
+    private static final int ADMIN_MAX_SELECTION = 7;
 
     private Bank bank;
+    private Customer customer;
     private Scanner keyboardInput;
 
-    public AdminMenu(Bank bank, Scanner keyboardInput) {
+    public AdminMenu(Bank bank, Customer customer, Scanner keyboardInput) {
         this.bank = bank;
+        this.customer = customer;
         this.keyboardInput = keyboardInput;
     }
 
@@ -22,7 +24,8 @@ public class AdminMenu {
         System.out.println("3. Collect fee");
         System.out.println("4. Add interest");
         System.out.println("5. Rename account");
-        System.out.println("6. Back");
+        System.out.println("6: Unfreeze customer account");
+        System.out.println("7. Back");
     }
 
     public int getUserSelection(int max) {
@@ -53,6 +56,9 @@ public class AdminMenu {
                 performRenameAccount();
                 break;
             case 6:
+                performUnfreezeCustomerAccount();
+                break;
+            case 7:
                 System.out.println("Returning to main menu.");
                 break;
             default:
@@ -136,6 +142,27 @@ public class AdminMenu {
             System.out.println("Account renamed successfully.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid account or account name.");
+        }
+    }
+
+   public void performUnfreezeCustomerAccount() {
+        if (!customer.isFrozen()) {
+            System.out.println("Customer account is not currently frozen.");
+            return;
+        }
+
+        System.out.print("Enter customer username: ");
+        String enteredName = keyboardInput.nextLine();
+
+        System.out.print("Enter customer birth year: ");
+        int enteredYear = keyboardInput.nextInt();
+        keyboardInput.nextLine();
+
+        if (customer.verifyIdentity(enteredName, enteredYear)) {
+            customer.unfreeze();
+            System.out.println("Identity verified. Customer account has been unfrozen.");
+        } else {
+            System.out.println("Verification failed. Customer account remains frozen.");
         }
     }
 

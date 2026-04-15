@@ -60,7 +60,7 @@ public class MainMenu {
                     customerMenu.runCustomerMenu();
                     break;
                 case 2:
-                    AdminMenu adminMenu = new AdminMenu(bank, keyboardInput);
+                    AdminMenu adminMenu = new AdminMenu(bank, customer, keyboardInput);
                     adminMenu.runAdminMenu();
                     break;
                 case 3:

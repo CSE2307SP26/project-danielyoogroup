@@ -128,4 +128,31 @@ public class CustomerTest {
             // test passes
         }
     }
+
+
+    @Test
+    public void testVerifyIdentityCorrect() {
+        Customer customer = new Customer("Shelby", 2005);
+        assertEquals(true, customer.verifyIdentity("Shelby", 2005));
+    }
+
+    @Test
+    public void testVerifyIdentityWrongName() {
+        Customer customer = new Customer("Shelby", 2005);
+        assertEquals(false, customer.verifyIdentity("Anna", 2005));
+    }
+
+    @Test
+    public void testVerifyIdentityWrongBirthYear() {
+        Customer customer = new Customer("Shelby", 2005);
+        assertEquals(false, customer.verifyIdentity("Shelby", 2004));
+    }   
+
+    @Test
+    public void testUnfreezeCustomer() {
+        Customer customer = new Customer();
+        customer.freeze();
+        customer.unfreeze();
+        assertEquals(false, customer.isFrozen());
+    }
 }

@@ -68,6 +68,10 @@ public class Customer {
         frozen = true;
     }
 
+    public void unfreeze() {
+        frozen = false;
+    }
+
     public boolean isFrozen() {
         return frozen;
     }
@@ -81,5 +85,9 @@ public class Customer {
 
     public double getSavingsGoal() {
         return savingsGoal;
+    }
+
+    public boolean verifyIdentity(String name, int year) {
+        return userName.equals(name) && userBirthYear == year;
     }
 }

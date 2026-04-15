@@ -37,7 +37,6 @@ public class BankAccount {
         return this.name;
     }
 
-
     // iteration 2: bank customer should be able to rename account
     public void setName(String newName) {
         if (newName == null || newName.trim().isEmpty()) {
@@ -119,6 +118,63 @@ public class BankAccount {
         if (!found) {
             System.out.println("No " + type + " transactions found.");
         }
-    }  
+    }
+
+    private double extractAmount(String transaction) {
+        int dollarIndex = transaction.indexOf('$');
+        int commaIndex = transaction.indexOf(',');
+
+        if (dollarIndex == -1 || commaIndex == -1 || commaIndex <= dollarIndex) {
+            return 0.0;
+        }
+
+        String amountString = transaction.substring(dollarIndex + 1, commaIndex).trim();
+        return Double.parseDouble(amountString);
+    }
+
+    public String getSummaryStatistics() {
+        int depositCount = 0;
+        int withdrawalCount = 0;
+        int feeCount = 0;
+        int interestCount = 0;
+
+        double totalDeposited = 0.0;
+        double totalWithdrawn = 0.0;
+        double totalFees = 0.0;
+        double totalInterest = 0.0;
+
+        for (String transaction : transactionHistory) {
+            if (transaction.startsWith("Deposited: $")) {
+                depositCount++;
+                totalDeposited += extractAmount(transaction);
+            } else if (transaction.startsWith("Withdrew: $")) {
+                withdrawalCount++;
+                totalWithdrawn += extractAmount(transaction);
+            } else if (transaction.startsWith("Fee collected: $")) {
+                feeCount++;
+                totalFees += extractAmount(transaction);
+            } else if (transaction.startsWith("Interest added: $")) {
+                interestCount++;
+                totalInterest += extractAmount(transaction);
+            }
+        }
+
+        return "Account Name: " + name + "\n"
+                + "Current Balance: $" + balance + "\n"
+                + "Total Transactions: " + (depositCount + withdrawalCount + feeCount + interestCount) + "\n"
+                + "Number of Deposits: " + depositCount + "\n"
+                + "Number of Withdrawals: " + withdrawalCount + "\n"
+                + "Number of Fees: " + feeCount + "\n"
+                + "Number of Interest Payments: " + interestCount + "\n"
+                + "Total Deposited: $" + totalDeposited + "\n"
+                + "Total Withdrawn: $" + totalWithdrawn + "\n"
+                + "Total Fees Collected: $" + totalFees + "\n"
+                + "Total Interest Added: $" + totalInterest;
+    }
+
+    public void viewSummaryStatistics() {
+        System.out.println("---- Account Summary ----");
+        System.out.println(getSummaryStatistics());
+    }
 
 }

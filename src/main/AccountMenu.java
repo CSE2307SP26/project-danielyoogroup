@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AccountMenu {
 
-    private static final int ACCOUNT_EXIT_SELECTION = 6;
-    private static final int ACCOUNT_MAX_SELECTION = 6;
+    private static final int ACCOUNT_EXIT_SELECTION = 7;
+    private static final int ACCOUNT_MAX_SELECTION = 7;
 
     private Bank bank;
     private Scanner keyboardInput;
@@ -24,7 +24,8 @@ public class AccountMenu {
         System.out.println("3. Check account balance");
         System.out.println("4. View transaction history");
         System.out.println("5. Filter transaction history by type");
-        System.out.println("6. Back");
+        System.out.println("6. View summary statistics");
+        System.out.println("7. Back");
     }
 
     public int getUserSelection(int max) {
@@ -55,6 +56,9 @@ public class AccountMenu {
                 performFilterTransactionHistory();
                 break;
             case 6:
+                performViewSummaryStatistics();
+                break;
+            case 7:
                 System.out.println("Returning to customer menu.");
                 break;
             default:
@@ -125,6 +129,10 @@ public class AccountMenu {
         }
 
         bank.getAccount(currentAccountIndex).viewFilteredTransactionHistory(type);
+    }
+
+    public void performViewSummaryStatistics() {
+        bank.getAccount(currentAccountIndex).viewSummaryStatistics();
     }
 
     public void runAccountMenu() {

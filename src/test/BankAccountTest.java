@@ -4,6 +4,7 @@ import main.BankAccount;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -138,4 +139,23 @@ public class BankAccountTest {
         account.deposit(100);
         account.viewTransactionHistory();
     }
+
+    @Test
+    public void testSummaryStatistics() {
+        BankAccount account = new BankAccount("dyoo");
+        account.deposit(500);
+        account.withdraw(200);
+        account.deposit(30);
+
+        String summary = account.getSummaryStatistics();
+
+        assertTrue(summary.contains("Account Name: dyoo"));
+        assertTrue(summary.contains("Current Balance: $330.0"));
+        assertTrue(summary.contains("Total Transactions: 3"));
+        assertTrue(summary.contains("Number of Deposits: 2"));
+        assertTrue(summary.contains("Number of Withdrawals: 1"));
+        assertTrue(summary.contains("Total Deposited: $530.0"));
+        assertTrue(summary.contains("Total Withdrawn: $200.0"));
+    }
+
 }

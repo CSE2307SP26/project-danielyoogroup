@@ -127,9 +127,18 @@ public class CustomerService {
                 String enteredPin = keyboardInput.nextLine();
 
                 if (!customer.checkPin(enteredPin)) {
-                    System.out.println("Incorrect PIN.");
+                    customer.recordFailedPinAttempt();
+
+                    if (customer.isFrozen()) {
+                        System.out.println("Too many incorrect PIN attempts. Your account has been frozen.");
+                    } else {
+                        System.out.println("Incorrect PIN. Attempt "
+                                + customer.getFailedPinAttempts() + " of 3.");
+                    }
                     return;
                 }
+
+                customer.resetFailedPinAttempts();
             }
 
             currentAccountIndex = accountIndex;
@@ -191,7 +200,8 @@ public class CustomerService {
 
         if (input.equalsIgnoreCase("yes")) {
             customer.freeze();
-            System.out.println("Your account has been frozen. You will not be able to make transactions until you contact customer service.");
+            System.out.println(
+                    "Your account has been frozen. You will not be able to make transactions until you contact customer service.");
         } else {
             System.out.println("Account freeze cancelled.");
         }

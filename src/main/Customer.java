@@ -7,6 +7,7 @@ public class Customer {
     private String pin;
     private boolean frozen;
     private double savingsGoal;
+    private int failedPinAttempts;
 
     public Customer() {
         this.userName = "Default User";
@@ -14,6 +15,7 @@ public class Customer {
         this.pin = null;
         this.frozen = false;
         this.savingsGoal = 0.0;
+        this.failedPinAttempts = 0;
     }
 
     public Customer(String userName, int userBirthYear) {
@@ -25,6 +27,7 @@ public class Customer {
         this.pin = null;
         this.frozen = false;
         this.savingsGoal = 0.0;
+        this.failedPinAttempts = 0;
     }
 
     public String getUserName() {
@@ -89,5 +92,20 @@ public class Customer {
 
     public boolean verifyIdentity(String name, int year) {
         return userName.equals(name) && userBirthYear == year;
+    }
+
+    public int getFailedPinAttempts() {
+        return failedPinAttempts;
+    }
+
+    public void recordFailedPinAttempt() {
+        failedPinAttempts++;
+        if (failedPinAttempts >= 3) {
+            freeze();
+        }
+    }
+
+    public void resetFailedPinAttempts() {
+        failedPinAttempts = 0;
     }
 }

@@ -4,6 +4,7 @@ import main.Customer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -129,7 +130,6 @@ public class CustomerTest {
         }
     }
 
-
     @Test
     public void testVerifyIdentityCorrect() {
         Customer customer = new Customer("Shelby", 2005);
@@ -146,7 +146,7 @@ public class CustomerTest {
     public void testVerifyIdentityWrongBirthYear() {
         Customer customer = new Customer("Shelby", 2005);
         assertEquals(false, customer.verifyIdentity("Shelby", 2004));
-    }   
+    }
 
     @Test
     public void testUnfreezeCustomer() {
@@ -155,4 +155,40 @@ public class CustomerTest {
         customer.unfreeze();
         assertEquals(false, customer.isFrozen());
     }
+
+    @Test
+    public void testFailedPinAttemptsIncrease() {
+        Customer customer = new Customer("Daniel", 2003);
+        customer.setPin("1234");
+
+        customer.recordFailedPinAttempt();
+        assertEquals(1, customer.getFailedPinAttempts());
+        assertFalse(customer.isFrozen());
+    }
+
+    @Test
+    public void testCustomerFreezesAfterThreeFailedPinAttempts() {
+        Customer customer = new Customer("Daniel", 2003);
+        customer.setPin("1234");
+
+        customer.recordFailedPinAttempt();
+        customer.recordFailedPinAttempt();
+        customer.recordFailedPinAttempt();
+
+        assertEquals(3, customer.getFailedPinAttempts());
+        assertTrue(customer.isFrozen());
+    }
+
+    @Test
+    public void testResetFailedPinAttempts() {
+        Customer customer = new Customer("Daniel", 2003);
+        customer.setPin("1234");
+
+        customer.recordFailedPinAttempt();
+        customer.recordFailedPinAttempt();
+        customer.resetFailedPinAttempts();
+
+        assertEquals(0, customer.getFailedPinAttempts());
+    }
+
 }

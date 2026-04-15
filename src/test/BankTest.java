@@ -97,4 +97,23 @@ public class BankTest {
             // test passes
         }
     }
+
+    @Test
+    public void testGetTotalBalance() {
+        Bank bank = new Bank();
+        bank.createAccount("Checking");
+        bank.createAccount("Savings");
+
+        bank.getAccount(0).deposit(100);
+        bank.getAccount(1).deposit(250);
+
+        assertEquals(350, bank.getTotalBalance(), 0.01);
+    }
+
+    @Test
+    public void testGetTotalBalanceNoAccounts() {
+        Bank bank = new Bank();
+
+        assertEquals(0, bank.getTotalBalance(), 0.01);
+    }
 }

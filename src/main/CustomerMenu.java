@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class CustomerMenu {
 
-    private static final int CUSTOMER_EXIT_SELECTION = 12;
-    private static final int CUSTOMER_MAX_SELECTION = 12;
+    private static final int CUSTOMER_EXIT_SELECTION = 13;
+    private static final int CUSTOMER_MAX_SELECTION = 13;
 
     private Bank bank;
     private Customer customer;
@@ -31,7 +31,8 @@ public class CustomerMenu {
         System.out.println("9. Edit user details");
         System.out.println("10. Freeze account");
         System.out.println("11. Set savings goal");
-        System.out.println("12. Back");
+        System.out.println("12: View total balance across all accounts");
+        System.out.println("13. Back");
     }
 
     public int getUserSelection(int max) {
@@ -85,6 +86,9 @@ public class CustomerMenu {
                 performSavingsGoal();
                 break;
             case 12:
+                performViewTotalBalance();
+                break;
+            case 13:
                 System.out.println("Returning to main menu.");
                 break;
             default:
@@ -289,6 +293,11 @@ public class CustomerMenu {
         }
     }
 
+    public void performViewTotalBalance() {
+        double totalBalance = bank.getTotalBalance();
+        System.out.println("Your total balance across all accounts is: $" + totalBalance);
+    }
+
     public void runCustomerMenu() {
         int selection = -1;
         while (selection != CUSTOMER_EXIT_SELECTION) {
@@ -297,4 +306,6 @@ public class CustomerMenu {
             processCustomerInput(selection);
         }
     }
+
+
 }

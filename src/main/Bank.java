@@ -97,4 +97,16 @@ public class Bank {
         }
     }
 
+    //iteration 3: get total balance of all accounts
+
+    public double getTotalBalance() {
+        double total = 0;
+
+        for (BankAccount account : accounts) {
+            total += account.getBalance();
+        }
+
+        return total;
+    }   
+
 }

@@ -42,8 +42,12 @@ public class MainMenu {
         int userBirthYear = keyboardInput.nextInt();
         keyboardInput.nextLine();
 
+        System.out.print("Enter User PIN: ");
+        String pin = keyboardInput.nextLine();
+
         customer.setUserName(userName);
         customer.setUserBirthYear(userBirthYear);
+        customer.setPin(pin);
     }
 
     public void run() {

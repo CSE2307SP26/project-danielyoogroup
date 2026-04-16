@@ -25,23 +25,6 @@ public class CustomerService {
 
         bank.createAccount(name);
 
-        if (!customer.hasPin()) {
-            System.out.print("Would you like to protect this customer with a PIN? (yes or no): ");
-            String input = keyboardInput.nextLine();
-
-            if (input.equalsIgnoreCase("yes")) {
-                System.out.print("Enter a 4 digit PIN for this customer: ");
-                String customerPin = keyboardInput.nextLine();
-
-                try {
-                    customer.setPin(customerPin);
-                    System.out.println("PIN protection added.");
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid PIN. Account created without PIN protection.");
-                }
-            }
-        }
-
         System.out.println("Additional account created.");
 
         if (currentAccountIndex == -1) {
@@ -193,6 +176,29 @@ public class CustomerService {
 
         System.out.println("User details updated.");
     }
+
+    public void performChangePIN() {
+        System.out.print("Enter current PIN: ");
+        String previousPINEntry = keyboardInput.nextLine();
+            if (customer.getPin() != null && customer.getPin().equals(previousPINEntry)) {
+                System.out.print("Enter new PIN: ");
+                String newPIN = keyboardInput.nextLine();
+                customer.setPin(newPIN);
+                System.out.println("PIN updated successfully.");
+             } else {
+                if (!customer.checkPin(previousPINEntry)) {
+                    customer.recordFailedPinAttempt();
+
+                    if (customer.isFrozen()) {
+                        System.out.println("Too many incorrect PIN attempts. Your account has been frozen.");
+                    } else {
+                        System.out.println("Incorrect PIN. Attempt "
+                                + customer.getFailedPinAttempts() + " of 3.");
+                    }
+                    return;
+                }
+            }
+        }
 
     public void performFreezeAccount() {
         System.out.print("Are you sure you want to freeze your account? (yes or no): ");

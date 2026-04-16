@@ -38,6 +38,10 @@ public class Customer {
         return userBirthYear;
     }
 
+    public String getPin() {
+        return pin;
+    }
+
     public void setUserName(String userName) {
         if (userName == null || userName.trim().isEmpty()) {
             throw new IllegalArgumentException();

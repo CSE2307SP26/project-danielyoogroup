@@ -62,7 +62,11 @@ public class BankAccount {
             this.balance -= amount;
             transactionHistory.add("Withdrew: $" + amount + ", New Balance: $" + this.balance);
         } else {
+            System.out.println("Insufficient funds. You will be charged an overdraft fee of $35.");
+            this.balance -= 35;
+            System.out.println("Current account balance: $" + this.balance);
             throw new IllegalArgumentException();
+
         }
     }
 
@@ -176,5 +180,6 @@ public class BankAccount {
         System.out.println("---- Account Summary ----");
         System.out.println(getSummaryStatistics());
     }
+
 
 }

@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class CustomerMenu {
 
-    private static final int CUSTOMER_EXIT_SELECTION = 13;
-    private static final int CUSTOMER_MAX_SELECTION = 13;
+    private static final int CUSTOMER_EXIT_SELECTION = 14;
+    private static final int CUSTOMER_MAX_SELECTION = 14;
 
     private CustomerService customerService;
     private Scanner keyboardInput;
@@ -26,10 +26,11 @@ public class CustomerMenu {
         System.out.println("7. Rename account");
         System.out.println("8. See user details");
         System.out.println("9. Edit user details");
-        System.out.println("10. Freeze account");
-        System.out.println("11. Set savings goal");
-        System.out.println("12. View total balance across all accounts");
-        System.out.println("13. Back");
+        System.out.println("10. Change PIN");
+        System.out.println("11. Freeze account");
+        System.out.println("12. Set savings goal");
+        System.out.println("13. View total balance across all accounts");
+        System.out.println("14. Back");
     }
 
     public int getUserSelection(int max) {
@@ -77,15 +78,18 @@ public class CustomerMenu {
                 customerService.performEditUserDetails();
                 break;
             case 10:
-                customerService.performFreezeAccount();
+                customerService.performChangePIN();
                 break;
             case 11:
-                customerService.performSavingsGoal();
+                customerService.performFreezeAccount();
                 break;
             case 12:
-                customerService.performViewTotalBalance();
+                customerService.performSavingsGoal();
                 break;
             case 13:
+                customerService.performViewTotalBalance();
+                break;
+            case 14:
                 System.out.println("Returning to main menu.");
                 break;
             default:

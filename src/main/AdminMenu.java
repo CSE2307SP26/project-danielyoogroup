@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AdminMenu {
 
-    private static final int ADMIN_EXIT_SELECTION = 7;
-    private static final int ADMIN_MAX_SELECTION = 7;
+    private static final int ADMIN_EXIT_SELECTION = 8;
+    private static final int ADMIN_MAX_SELECTION = 8;
 
     private Bank bank;
     private Customer customer;
@@ -24,8 +24,9 @@ public class AdminMenu {
         System.out.println("3. Collect fee");
         System.out.println("4. Add interest");
         System.out.println("5. Rename account");
-        System.out.println("6: Unfreeze customer account");
-        System.out.println("7. Back");
+        System.out.println("6. See overdraft (negative) accounts");
+        System.out.println("7: Unfreeze customer account");
+        System.out.println("8. Back");
     }
 
     public int getUserSelection(int max) {
@@ -56,9 +57,12 @@ public class AdminMenu {
                 performRenameAccount();
                 break;
             case 6:
-                performUnfreezeCustomerAccount();
+                performSeeOverdraftFeeNegativeAccounts();
                 break;
             case 7:
+                performUnfreezeCustomerAccount();
+                break;
+            case 8:
                 System.out.println("Returning to main menu.");
                 break;
             default:
@@ -82,21 +86,22 @@ public class AdminMenu {
             System.out.println("No accounts exist yet.");
             return;
         }
+        else {
+            performListAccounts();
+            System.out.print("Enter account index: ");
+            int accountIndex = keyboardInput.nextInt();
+            keyboardInput.nextLine();
 
-        performListAccounts();
-        System.out.print("Enter account index: ");
-        int accountIndex = keyboardInput.nextInt();
-        keyboardInput.nextLine();
+            System.out.print("Enter fee amount: ");
+            double feeAmount = keyboardInput.nextDouble();
+            keyboardInput.nextLine();
 
-        System.out.print("Enter fee amount: ");
-        double feeAmount = keyboardInput.nextDouble();
-        keyboardInput.nextLine();
-
-        try {
-            bank.getAccount(accountIndex).collectFee(feeAmount);
-            System.out.println("Fee collected.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid fee amount or account.");
+            try {
+                bank.getAccount(accountIndex).collectFee(feeAmount);
+                System.out.println("Fee collected.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid fee amount or account.");
+            }
         }
     }
 
@@ -144,6 +149,11 @@ public class AdminMenu {
             System.out.println("Invalid account or account name.");
         }
     }
+
+    public void performSeeOverdraftFeeNegativeAccounts() {
+        bank.listOverdraftFeeNegativeAccounts();   
+        }
+    
 
    public void performUnfreezeCustomerAccount() {
         if (!customer.isFrozen()) {

@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Bank {
 
@@ -96,6 +97,23 @@ public class Bank {
             System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
         }
     }
+
+    public void listOverdraftFeeNegativeAccounts() {
+        if (accounts.isEmpty()) {
+            System.out.println("No accounts exist yet.");
+            return;
+        }
+        List<BankAccount> negativeAccounts = accounts.stream()
+        .filter(accounts -> accounts.getBalance() < 0).collect(Collectors.toList());
+
+        System.out.println("List of accounts with negative balance due to overdraft fee: ");
+
+        for (int i = 0; i < negativeAccounts.size(); i++) {
+            BankAccount acc = negativeAccounts.get(i);
+            System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
+        }
+    }
+
 
     //iteration 3: get total balance of all accounts
 

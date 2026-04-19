@@ -235,4 +235,40 @@ public class CustomerService {
         double totalBalance = bank.getTotalBalance();
         System.out.println("Your total balance across all accounts is: $" + totalBalance);
     }
+
+    public void performCheckSavingsProgress(){
+        double goal = customer.getSavingsGoal();
+        if (goal <= 0) {
+            System.out.println("No Savings Goal Set.");
+            return;
+        }
+        double totalBalance = bank.getTotalBalance();
+        double percentage = (totalBalance / goal) * 100;
+        System.out.printf ("Your total balance is $%.2f. Savings Goal: $%.2f.\n", totalBalance, goal);
+        System.out.printf("You have achieved %.2f%% of your savings goal.\n", percentage);
+        if (totalBalance >= goal){
+            System.out.println("Congratulations on reaching your savings goal!" );
+        }
+        else{
+            System.out.printf("You need $%.2f more to reach your goal.\n", goal - totalBalance);
+        }
+    }
+
+    public void performListAccountsOverValue(){
+        System.out.print("Enter minimum account balance: ");
+        double minDollars = keyboardInput.nextDouble();
+        keyboardInput.nextLine();
+
+        boolean over = false;
+        for (int i = 0; i < bank.getNumberOfAccounts(); i++) {
+            BankAccount tempAccount = bank.getAccount(i);
+            if (tempAccount.getBalance() > minDollars) {
+                System.out.println("Index: " + i + " | Name: " + tempAccount.getName() + " | Balance: $" + tempAccount.getBalance());
+                over = true;
+            }
+        }
+        if (!over) {
+            System.out.println("No accounts found over the specified value.");
+        }
+}
 }

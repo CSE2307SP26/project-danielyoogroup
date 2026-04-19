@@ -253,4 +253,22 @@ public class CustomerService {
             System.out.printf("You need $%.2f more to reach your goal.\n", goal - totalBalance);
         }
     }
+
+    public void performListAccountsOverValue(){
+        System.out.print("Enter minimum account balance: ");
+        double minDollars = keyboardInput.nextDouble();
+        keyboardInput.nextLine();
+
+        boolean over = false;
+        for (int i = 0; i < bank.getNumberOfAccounts(); i++) {
+            BankAccount tempAccount = bank.getAccount(i);
+            if (tempAccount.getBalance() > minDollars) {
+                System.out.println("Index: " + i + " | Name: " + tempAccount.getName() + " | Balance: $" + tempAccount.getBalance());
+                over = true;
+            }
+        }
+        if (!over) {
+            System.out.println("No accounts found over the specified value.");
+        }
+}
 }

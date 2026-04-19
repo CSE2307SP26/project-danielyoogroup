@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class CustomerMenu {
 
-    private static final int CUSTOMER_EXIT_SELECTION = 15;
-    private static final int CUSTOMER_MAX_SELECTION = 15;
+    private static final int CUSTOMER_EXIT_SELECTION = 16;
+    private static final int CUSTOMER_MAX_SELECTION = 16;
 
     private CustomerService customerService;
     private Scanner keyboardInput;
@@ -31,7 +31,8 @@ public class CustomerMenu {
         System.out.println("12. Set savings goal");
         System.out.println("13. View total balance across all accounts");
         System.out.println("14. Check savings progress");
-        System.out.println("15. Back");
+        System.out.println("15. List accounts over a certain value");
+        System.out.println("16. Back");
     }
 
     public int getUserSelection(int max) {
@@ -94,6 +95,9 @@ public class CustomerMenu {
                 customerService.performCheckSavingsProgress();
                 break;
             case 15:
+                customerService.performListAccountsOverValue();
+                break;
+            case 16:
                 System.out.println("Returning to main menu.");
                 break;
             default:

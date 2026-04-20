@@ -25,7 +25,7 @@ public class AdminMenu {
         System.out.println("4. Add interest");
         System.out.println("5. Rename account");
         System.out.println("6. See overdraft (negative) accounts");
-        System.out.println("7: Unfreeze customer account");
+        System.out.println("7. Unfreeze customer account");
         System.out.println("8. Back");
     }
 

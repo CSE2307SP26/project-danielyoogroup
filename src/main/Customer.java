@@ -77,6 +77,7 @@ public class Customer {
 
     public void unfreeze() {
         frozen = false;
+        failedPinAttempts = 0;
     }
 
     public boolean isFrozen() {

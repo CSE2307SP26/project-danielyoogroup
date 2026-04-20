@@ -58,16 +58,20 @@ public class BankAccount {
 
     // A bank customer should be able to withdraw from their account
     public void withdraw(double amount) {
-        if ((amount > 0) && (this.balance >= amount)) {
-            this.balance -= amount;
-            transactionHistory.add("Withdrew: $" + amount + ", New Balance: $" + this.balance);
-        } else {
+        if (amount <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        if (this.balance < amount) {
             System.out.println("Insufficient funds. You will be charged an overdraft fee of $35.");
             this.balance -= 35;
+            transactionHistory.add("Fee collected: $35.0, New Balance: $" + this.balance);
             System.out.println("Current account balance: $" + this.balance);
             throw new IllegalArgumentException();
-
         }
+
+        this.balance -= amount;
+        transactionHistory.add("Withdrew: $" + amount + ", New Balance: $" + this.balance);
     }
 
     // A bank customer should be able to check their account balance

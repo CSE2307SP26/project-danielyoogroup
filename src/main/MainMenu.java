@@ -34,6 +34,7 @@ public class MainMenu {
         return selection;
     }
 
+   
     public void makeCustomerDetails() {
         System.out.print("Enter username: ");
         String userName = keyboardInput.nextLine();
@@ -42,12 +43,21 @@ public class MainMenu {
         int userBirthYear = keyboardInput.nextInt();
         keyboardInput.nextLine();
 
-        System.out.print("Enter User PIN: ");
-        String pin = keyboardInput.nextLine();
-
         customer.setUserName(userName);
         customer.setUserBirthYear(userBirthYear);
-        customer.setPin(pin);
+
+        boolean validPin = false;
+        while (!validPin) {
+            System.out.print("Enter User PIN: ");
+            String pin = keyboardInput.nextLine();
+
+            try {
+                customer.setPin(pin);
+                validPin = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid PIN. Please try again.");
+            }
+        }
     }
 
     public void run() {

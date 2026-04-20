@@ -191,4 +191,19 @@ public class CustomerTest {
         assertEquals(0, customer.getFailedPinAttempts());
     }
 
+    @Test
+    public void testUnfreezeResetsFailedPinAttempts() {
+        Customer customer = new Customer("Daniel", 2003);
+        customer.setPin("1234");
+
+        customer.recordFailedPinAttempt();
+        customer.recordFailedPinAttempt();
+        customer.recordFailedPinAttempt();
+
+        customer.unfreeze();
+
+        assertEquals(0, customer.getFailedPinAttempts());
+        assertFalse(customer.isFrozen());
+    }
+
 }

@@ -3,7 +3,6 @@ package main;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Bank {
 
@@ -88,13 +87,13 @@ public class Bank {
             return;
         }
 
-        accounts.sort(Comparator.comparingDouble(BankAccount::getBalance).reversed());
-
+        List<BankAccount> sortedAccounts = new ArrayList<>(accounts);
+        sortedAccounts.sort(Comparator.comparingDouble(BankAccount::getBalance).reversed());
         System.out.println("List of accounts:");
 
-        for (int i = 0; i < accounts.size(); i++) {
-            BankAccount acc = accounts.get(i);
-            System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
+        for (int i = 0; i < sortedAccounts.size(); i++) {
+            BankAccount acc = sortedAccounts.get(i);
+            System.out.println("Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
         }
     }
 
@@ -103,14 +102,20 @@ public class Bank {
             System.out.println("No accounts exist yet.");
             return;
         }
-        List<BankAccount> negativeAccounts = accounts.stream()
-        .filter(accounts -> accounts.getBalance() < 0).collect(Collectors.toList());
 
-        System.out.println("List of accounts with negative balance due to overdraft fee: ");
+        boolean found = false;
+        System.out.println("List of accounts with negative balance due to overdraft fee:");
 
-        for (int i = 0; i < negativeAccounts.size(); i++) {
-            BankAccount acc = negativeAccounts.get(i);
-            System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
+        for (int i = 0; i < accounts.size(); i++) {
+            BankAccount acc = accounts.get(i);
+            if (acc.getBalance() < 0) {
+                System.out.println("Index: " + i + " | Name: " + acc.getName() + " | Balance: $" + acc.getBalance());
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No accounts with negative balances found.");
         }
     }
 

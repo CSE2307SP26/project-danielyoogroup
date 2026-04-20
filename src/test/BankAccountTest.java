@@ -141,6 +141,24 @@ public class BankAccountTest {
     }
 
     @Test
+    public void testOverdraftFeeAppearsInSummaryStatistics() {
+        BankAccount account = new BankAccount("Checking");
+        account.deposit(20);
+
+        try {
+            account.withdraw(50);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+
+        String summary = account.getSummaryStatistics();
+
+        assertTrue(summary.contains("Number of Fees: 1"));
+        assertTrue(summary.contains("Total Fees Collected: $35.0"));
+    }
+
+    @Test
     public void testSummaryStatistics() {
         BankAccount account = new BankAccount("dyoo");
         account.deposit(500);
@@ -156,6 +174,22 @@ public class BankAccountTest {
         assertTrue(summary.contains("Number of Withdrawals: 1"));
         assertTrue(summary.contains("Total Deposited: $530.0"));
         assertTrue(summary.contains("Total Withdrawn: $200.0"));
+    }
+
+
+    @Test
+    public void testOverdraftFeeLowersBalanceBy35() {   
+        BankAccount account = new BankAccount("Checking");
+        account.deposit(20);
+
+        try {
+            account.withdraw(50);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+
+        assertEquals(-15, account.getBalance(), 0.01);
     }
 
 }

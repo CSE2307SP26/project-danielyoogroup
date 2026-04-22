@@ -33,8 +33,14 @@ Iteration 2
 
 Iteration 3
 
-7. The system should lock an account after multiple incorrect PIN attempts. (Daniel)
-8. A customer should be able to view summary statistics for an account. (Daniel)
+1. A bank customer should be locked out of an account after multiple incorrect PIN attempts. (Daniel)
+2. A bank customer should be able to view summary statistics for an account. (Daniel)
+3. A bank customer should be able to view total balance across all accounts. (Shelby)
+4. A bank administrator should be able to unfreeze a customer account after identity verification. (Shelby)
+5. A bank customer should be able to check if their savings goal has been reached / show savings as a percentage. (Marc)
+6. A bank customer should be able to heck accounts over a certain value. (Marc)
+7. A bank administrator should be able to charge an overdraft fee to negative accounts. (Anne)
+8. A customer should be able to change their PIN. (Anne)
 
 ## What user stories do you intend to complete next iteration?
 This is the final iteration

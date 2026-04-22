@@ -8,10 +8,12 @@ public class CustomerMenu {
     private static final int CUSTOMER_MAX_SELECTION = 16;
 
     private CustomerService customerService;
+    private CustomerAccountService customerAccountService;
     private Scanner keyboardInput;
 
     public CustomerMenu(Bank bank, Customer customer, Scanner keyboardInput) {
         this.customerService = new CustomerService(bank, customer, keyboardInput);
+        this.customerAccountService = new CustomerAccountService(bank, customer, keyboardInput);
         this.keyboardInput = keyboardInput;
     }
 
@@ -53,25 +55,25 @@ public class CustomerMenu {
 
         switch (selection) {
             case 1:
-                customerService.performCreateAdditionalAccount();
+                customerAccountService.performCreateAdditionalAccount();
                 break;
             case 2:
-                customerService.performCloseAccount();
+                customerAccountService.performCloseAccount();
                 break;
             case 3:
-                customerService.performTransfer();
+                customerAccountService.performTransfer();
                 break;
             case 4:
-                customerService.performListAccounts();
+                customerAccountService.performListAccounts();
                 break;
             case 5:
-                customerService.performListAccountsByBalance();
+                customerAccountService.performListAccountsByBalance();
                 break;
             case 6:
-                customerService.performSelectAccount();
+                customerAccountService.performSelectAccount();
                 break;
             case 7:
-                customerService.performRenameAccount();
+                customerAccountService.performRenameAccount();
                 break;
             case 8:
                 customerService.performSeeUserDetails();
@@ -89,13 +91,13 @@ public class CustomerMenu {
                 customerService.performSavingsGoal();
                 break;
             case 13:
-                customerService.performViewTotalBalance();
+                customerAccountService.performViewTotalBalance();
                 break;
             case 14:
                 customerService.performCheckSavingsProgress();
                 break;
             case 15:
-                customerService.performListAccountsOverValue();
+                customerAccountService.performListAccountsOverValue();
                 break;
             case 16:
                 System.out.println("Returning to main menu.");

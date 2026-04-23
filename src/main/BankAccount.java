@@ -8,8 +8,6 @@ public class BankAccount {
     private double balance;
     private List<String> transactionHistory;
     private String name;
-    private boolean pinProtected;
-    private String pin;
 
     public BankAccount() {
         this("Unnamed");
@@ -20,8 +18,6 @@ public class BankAccount {
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
         transactionHistory.add("Account created with balance: " + this.balance);
-        this.pinProtected = false;
-        this.pin = null;
     }
 
     public void deposit(double amount) {
@@ -39,25 +35,6 @@ public class BankAccount {
 
     public String getName() {
         return this.name;
-    }
-
-    public void setPin(String pin){
-        if (pin==null || pin.trim().isEmpty()){
-            throw new IllegalArgumentException();
-        }
-        this.pin = pin;
-        this.pinProtected = true;
-        transactionHistory.add("PIN protection added to account.");
-    }
-
-    public boolean isPinProtected(){
-        return this.pinProtected;
-    }
-
-    public boolean checkPin(String inputedPin){
-        if (!pinProtected)
-            return true;
-        return pin.equals(inputedPin);
     }
 
     // iteration 2: bank customer should be able to rename account
@@ -81,12 +58,20 @@ public class BankAccount {
 
     // A bank customer should be able to withdraw from their account
     public void withdraw(double amount) {
-        if ((amount > 0) && (this.balance >= amount)) {
-            this.balance -= amount;
-            transactionHistory.add("Withdrew: $" + amount + ", New Balance: $" + this.balance);
-        } else {
+        if (amount <= 0) {
             throw new IllegalArgumentException();
         }
+
+        if (this.balance < amount) {
+            System.out.println("Insufficient funds. You will be charged an overdraft fee of $35.");
+            this.balance -= 35;
+            transactionHistory.add("Fee collected: $35.0, New Balance: $" + this.balance);
+            System.out.println("Current account balance: $" + this.balance);
+            throw new IllegalArgumentException();
+        }
+
+        this.balance -= amount;
+        transactionHistory.add("Withdrew: $" + amount + ", New Balance: $" + this.balance);
     }
 
     // A bank customer should be able to check their account balance
@@ -141,6 +126,64 @@ public class BankAccount {
         if (!found) {
             System.out.println("No " + type + " transactions found.");
         }
-    }  
+    }
+
+    private double extractAmount(String transaction) {
+        int dollarIndex = transaction.indexOf('$');
+        int commaIndex = transaction.indexOf(',');
+
+        if (dollarIndex == -1 || commaIndex == -1 || commaIndex <= dollarIndex) {
+            return 0.0;
+        }
+
+        String amountString = transaction.substring(dollarIndex + 1, commaIndex).trim();
+        return Double.parseDouble(amountString);
+    }
+
+    public String getSummaryStatistics() {
+        int depositCount = 0;
+        int withdrawalCount = 0;
+        int feeCount = 0;
+        int interestCount = 0;
+
+        double totalDeposited = 0.0;
+        double totalWithdrawn = 0.0;
+        double totalFees = 0.0;
+        double totalInterest = 0.0;
+
+        for (String transaction : transactionHistory) {
+            if (transaction.startsWith("Deposited: $")) {
+                depositCount++;
+                totalDeposited += extractAmount(transaction);
+            } else if (transaction.startsWith("Withdrew: $")) {
+                withdrawalCount++;
+                totalWithdrawn += extractAmount(transaction);
+            } else if (transaction.startsWith("Fee collected: $")) {
+                feeCount++;
+                totalFees += extractAmount(transaction);
+            } else if (transaction.startsWith("Interest added: $")) {
+                interestCount++;
+                totalInterest += extractAmount(transaction);
+            }
+        }
+
+        return "Account Name: " + name + "\n"
+                + "Current Balance: $" + balance + "\n"
+                + "Total Transactions: " + (depositCount + withdrawalCount + feeCount + interestCount) + "\n"
+                + "Number of Deposits: " + depositCount + "\n"
+                + "Number of Withdrawals: " + withdrawalCount + "\n"
+                + "Number of Fees: " + feeCount + "\n"
+                + "Number of Interest Payments: " + interestCount + "\n"
+                + "Total Deposited: $" + totalDeposited + "\n"
+                + "Total Withdrawn: $" + totalWithdrawn + "\n"
+                + "Total Fees Collected: $" + totalFees + "\n"
+                + "Total Interest Added: $" + totalInterest;
+    }
+
+    public void viewSummaryStatistics() {
+        System.out.println("---- Account Summary ----");
+        System.out.println(getSummaryStatistics());
+    }
+
 
 }

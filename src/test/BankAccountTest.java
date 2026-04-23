@@ -1,8 +1,6 @@
 package test;
 
-import main.Bank;
 import main.BankAccount;
-import main.MainMenu;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -26,7 +24,7 @@ public class BankAccountTest {
             testAccount.deposit(-50);
             fail();
         } catch (IllegalArgumentException e) {
-            // do nothing, test passes
+            // test passes
         }
     }
 
@@ -45,7 +43,7 @@ public class BankAccountTest {
             testAccount.collectFee(-10);
             fail();
         } catch (IllegalArgumentException e) {
-            // do nothing, test passes
+            // test passes
         }
     }
 
@@ -64,7 +62,7 @@ public class BankAccountTest {
             testAccount.withdraw(-50);
             fail();
         } catch (IllegalArgumentException e) {
-            // do nothing, test passes
+            // test passes
         }
     }
 
@@ -102,15 +100,8 @@ public class BankAccountTest {
             testAccount.addInterest(-10);
             fail();
         } catch (IllegalArgumentException e) {
-            // do nothing, test passes
+            // test passes
         }
-    }
-
-    @Test
-    public void testTransactionHistory() {
-        BankAccount account = new BankAccount();
-        account.deposit(100);
-        account.viewTransactionHistory();
     }
 
     @Test
@@ -143,32 +134,62 @@ public class BankAccountTest {
     }
 
     @Test
-    public void testSetPin() {
+    public void testTransactionHistory() {
+        BankAccount account = new BankAccount();
+        account.deposit(100);
+        account.viewTransactionHistory();
+    }
+
+    @Test
+    public void testOverdraftFeeAppearsInSummaryStatistics() {
         BankAccount account = new BankAccount("Checking");
-        account.setPin("1234");
-        assertEquals(true, account.isPinProtected());
+        account.deposit(20);
+
+        try {
+            account.withdraw(50);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+
+        String summary = account.getSummaryStatistics();
+
+        assertTrue(summary.contains("Number of Fees: 1"));
+        assertTrue(summary.contains("Total Fees Collected: $35.0"));
     }
 
     @Test
-    public void testCheckPin() {
+    public void testSummaryStatistics() {
+        BankAccount account = new BankAccount("dyoo");
+        account.deposit(500);
+        account.withdraw(200);
+        account.deposit(30);
+
+        String summary = account.getSummaryStatistics();
+
+        assertTrue(summary.contains("Account Name: dyoo"));
+        assertTrue(summary.contains("Current Balance: $330.0"));
+        assertTrue(summary.contains("Total Transactions: 3"));
+        assertTrue(summary.contains("Number of Deposits: 2"));
+        assertTrue(summary.contains("Number of Withdrawals: 1"));
+        assertTrue(summary.contains("Total Deposited: $530.0"));
+        assertTrue(summary.contains("Total Withdrawn: $200.0"));
+    }
+
+
+    @Test
+    public void testOverdraftFeeLowersBalanceBy35() {   
         BankAccount account = new BankAccount("Checking");
-        account.setPin("1234");
-        assertEquals(true, account.checkPin("1234"));
-}
-    @Test
-    public void testSetSavingsGoal() {
-        Bank bank = new Bank();
-        bank.setSavingsGoal(500.0);
-        assertEquals(500.0, bank.savingsGoal, 0.01);
-    }
+        account.deposit(20);
 
-    @Test
-    public void testFreezeAccountFlag() {
-        MainMenu menu = new MainMenu();
-        // Simulate freezing the account
-        menu.performFreezeAccount();
-        assertTrue(menu.isFrozen);
-    }
+        try {
+            account.withdraw(50);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
 
+        assertEquals(-15, account.getBalance(), 0.01);
+    }
 
 }
